@@ -101,6 +101,12 @@ section {
     width: auto;
     display: block;
 }
+@media (min-width: 769px) {
+    .nav {
+        display: flex !important;
+    }
+}
+
 @media (max-width: 768px) {
 
     .nav {
