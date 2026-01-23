@@ -52,6 +52,8 @@ section {
 .nav {
     display: flex;
     gap: 20px;
+    flex: 1;
+    justify-content: center;
 }
 
 .nav a {
