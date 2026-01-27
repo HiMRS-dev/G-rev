@@ -1,3 +1,5 @@
+console.log("Script loaded");
+
 document.addEventListener("DOMContentLoaded", () => {
 
     // ===== MODAL =====
