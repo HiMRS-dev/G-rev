@@ -1,5 +1,3 @@
-console.log("Script loaded");
-
 document.addEventListener("DOMContentLoaded", () => {
 
     // ===== MODAL =====
@@ -124,31 +122,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // ===== BURGER + OVERLAY =====
     const burger = document.querySelector(".burger");
     const nav = document.querySelector(".nav");
-    console.log("Nav element:", nav);
-    
+
     burger.addEventListener("click", () => {
         burger.classList.toggle("active");
         nav.classList.toggle("active");
     });
-    
-    if (nav) {
-        nav.querySelectorAll("a").forEach(link => {
-            link.addEventListener("click", () => {
-                burger.classList.remove("active");
-                nav.classList.remove("active");
-            });
+
+    nav.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+            burger.classList.remove("active");
+            nav.classList.remove("active");
         });
-    
-        // Debug: log hover on nav links
-        nav.querySelectorAll("a").forEach(link => {
-            link.addEventListener("mouseenter", () => {
-                console.log("Hover on nav link:", link.textContent);
-            });
-            link.addEventListener("mouseleave", () => {
-                console.log("Leave nav link:", link.textContent);
-            });
-        });
-    }
+    });
 
 
 });
