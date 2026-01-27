@@ -59,7 +59,7 @@ section {
 .nav a {
     color: #fff;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 16px;
     opacity: 0.85;
     transition: color 0.3s ease;
 }
@@ -69,9 +69,9 @@ section {
 }
 
 .header .btn {
-    padding: 14px 29px;
+    padding: 12px 24px;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 16px;
 }
 @media (max-width: 768px) {
     .header .btn {
@@ -99,7 +99,7 @@ section {
 }
 
 .header-logo img {
-    height: 72px;
+    height: 60px;
     width: auto;
     display: block;
 }
