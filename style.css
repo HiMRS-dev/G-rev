@@ -90,11 +90,11 @@ section {
 }
 
 .close-menu span:first-child {
-    transform: rotate(45deg) translate(5px, 5px);
+    transform: rotate(45deg);
 }
 
 .close-menu span:last-child {
-    transform: rotate(-45deg) translate(7px, -7px);
+    transform: rotate(-45deg);
 }
 
 .header .btn {
