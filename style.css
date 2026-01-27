@@ -73,12 +73,28 @@ section {
     display: none;
     background: none;
     border: none;
-    color: #fff;
-    font-size: 24px;
     cursor: pointer;
     position: absolute;
     top: 10px;
     right: 10px;
+    padding: 8px;
+}
+
+.close-menu span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: #fff;
+    margin: 5px 0;
+    transition: transform 0.3s ease;
+}
+
+.close-menu span:first-child {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.close-menu span:last-child {
+    transform: rotate(-45deg) translate(7px, -7px);
 }
 
 .header .btn {
