@@ -751,9 +751,9 @@ h3 {
 }
 
 .image-slide img {
-    max-width: min(100%, 80vw);
-    max-height: min(100%, 80vh);
-    object-fit: contain;
+    max-width: 80vw;
+    max-height: 80vh;
+    object-fit: scale-down;
     position: relative;
     z-index: 2;
     border-radius: 14px;
