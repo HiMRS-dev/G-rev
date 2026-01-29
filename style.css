@@ -462,7 +462,6 @@ h3 {
     background: #111;
     padding: 28px;
     border-radius: 14px;
-    box-shadow: 0 0 15px rgba(77, 208, 225, 0.3);
 }
 
 .approach-item h3 {
@@ -478,6 +477,10 @@ h3 {
     .approach {
         gap: 30px;
         flex-direction: column;
+    }
+
+    .approach-item {
+        box-shadow: 0 0 15px rgba(77, 208, 225, 0.3);
     }
 }
 
