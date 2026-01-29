@@ -167,44 +167,42 @@
 
 
 <section id="contacts">
-    <div class="container contacts-content">
-        <h2>Контакты</h2>
+  <div class="container contacts-content">
+    <h2>Контакты</h2>
 
-        <p class="contacts-text">
-            Если у вас есть вопросы или вы хотите записаться на занятие —
-            просто напишите или позвоните.
-        </p>
+    <p class="contacts-text">
+      Если у вас есть вопросы или вы хотите записаться на занятие —
+      просто напишите или позвоните.
+    </p>
 
-        <div class="contacts-actions">
-            <a href="tel:+79621283418" class="contacts-link">
-                +7&nbsp;962&nbsp;128-34-18
-            </a>
+    <div class="contacts-actions">
+      <a href="tel:+79621283418" class="contacts-link">
+        +7&nbsp;962&nbsp;128-34-18
+      </a>
 
-            <div class="contacts-messengers">
-                <a href="https://t.me/guitarrevolution" target="_blank">Telegram</a>
-            </div>
-        </div>
-            <p class="contacts-subtext">
-                У нас две студии — выберите удобную.
-            </p>
-        <div class="contacts-locations">
-            <button class="location-btn active" data-map="map1">
-                Больничная 55
-            </button>
-            <button class="location-btn" data-map="map2">
-                Хабаровская 43
-            </button>
-        </div>
-
-        <div class="contacts-map">
-            <iframe
-                id="map-frame"
-                src="https://yandex.ru/map-widget/v1/?um=constructor%3AMAP_ID_1"
-                frameborder="0">
-            </iframe>
-        </div>
-
+      <div class="contacts-messengers">
+        <a href="https://t.me/guitarrevolution" target="_blank">Telegram</a>
+      </div>
     </div>
+
+    <p class="contacts-subtext">
+      У нас две студии — выберите удобную.
+    </p>
+
+    <div class="contacts-locations">
+      <button class="location-btn active" data-map="hospital">
+        Больничная 55
+      </button>
+      <button class="location-btn" data-map="khabarovsk">
+        Хабаровская 43
+      </button>
+    </div>
+
+    <!-- 🔥 ЕДИНСТВЕННЫЙ КОНТЕЙНЕР КАРТЫ -->
+    <div class="contacts-map">
+      <div id="map-container"></div>
+    </div>
+  </div>
 </section>
 
 

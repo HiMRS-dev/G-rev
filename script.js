@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initGallery();
   initSwipers();
   initLazyLoading();
+  initMap();
 });
 
 /**
@@ -243,5 +244,46 @@ function initSwipers() {
       el: ".reviewsSwiper .swiper-pagination",
       clickable: true,
     },
+  });
+}
+
+function initMap() {
+  const mapContainer = document.getElementById("map-container");
+  const buttons = document.querySelectorAll(".location-btn");
+
+  if (!mapContainer || !buttons.length) return;
+
+  const maps = {
+    hospital:
+      "https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A5c6d9dc8d250efcbe659485476780c5afa5f5fc6e3da96abfa0e0268fb0555c0&lang=ru_RU&scroll=true",
+    khabarovsk:
+      "https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A373534893120773fa2c4839d3ad97d4540f7d12c7d7a4949f3a931f60b7dfe0b&lang=ru_RU&scroll=true",
+  };
+
+  function loadMap(key) {
+    // 🔥 Полностью удаляем предыдущую карту
+    mapContainer.innerHTML = "";
+
+    const script = document.createElement("script");
+    script.src = maps[key];
+    script.async = true;
+    script.charset = "utf-8";
+
+    mapContainer.appendChild(script);
+  }
+
+  // Карта по умолчанию
+  loadMap("hospital");
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.map;
+      if (!maps[key]) return;
+
+      buttons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      loadMap(key);
+    });
   });
 }

@@ -273,6 +273,7 @@ h3 {
     .hero-buttons button {
         width: 100%;
         max-width: 320px;
+        font-size: 18px;
     }
 
 }
@@ -489,7 +490,7 @@ h3 {
 ===================================================== */
 
 #reviews {
-    padding: 80px 20px;
+    padding: 60px 20px;
 }
 
 .reviewsSwiper {
@@ -549,7 +550,7 @@ h3 {
 ===================================================== */
 
 #contacts {
-    padding: 100px 20px;
+    padding: 60px 20px;
     text-align: center;
 }
 
@@ -639,35 +640,33 @@ h3 {
 }
 
 /* =====================================================
-   CONTACTS MAP
-===================================================== */
+    CONTACTS MAP
+ ===================================================== */
 
 .contacts-map {
-    margin-top: 60px;
-    border-radius: 16px;
-    overflow: hidden;
+  margin-top: 60px;
+  width: 100%;
+  height: 360px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
 }
 
-.contacts-map iframe {
-    display: block;
-    width: 100%;
-    height: 360px;
-    border: none;
+#map-container {
+  width: 100%;
+  height: 100%;
+}
+
+#map-container iframe {
+  width: 100% !important;
+  height: 100% !important;
+  border: none;
 }
 
 @media (max-width: 768px) {
-    .contacts-map iframe {
-        height: 260px;
-    }
-
-    .contacts-link {
-        font-size: 22px;
-        margin-bottom: 24px;
-    }
-
-    .location-btn {
-        padding: 12px 20px;
-    }
+  .contacts-map {
+    height: 260px;
+  }
 }
 
 /* =====================================================
