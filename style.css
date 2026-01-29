@@ -952,13 +952,4 @@ h3 {
   .header .btn {
     display: none;
   }
-
-  .swiper-button-prev,
-  .swiper-button-next {
-    display: none;
-  }
-
-  .mySwiper .swiper-pagination {
-    display: block;
-  }
 }

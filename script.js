@@ -220,10 +220,6 @@ function initSwipers() {
       nextEl: "#about .swiper-button-next",
       prevEl: "#about .swiper-button-prev"
     },
-    pagination: {
-      el: ".mySwiper .swiper-pagination",
-      clickable: true
-    },
     breakpoints: {
       0: {
         slidesPerView: 1,
