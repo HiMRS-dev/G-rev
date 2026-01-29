@@ -817,6 +817,11 @@ h3 {
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background: #35a8c0;
 }
 
 .btn-outline {
