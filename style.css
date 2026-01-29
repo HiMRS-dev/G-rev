@@ -121,30 +121,8 @@ h3 {
     font-weight: 600;
     font-size: 16px;
 }
-@media (max-width: 768px) {
-    .header .btn {
-        display: none;
-    }
-
-    .header .container {
-        padding: 12px 16px;
-    }
-
-    .header {
-        padding: 12px 16px;
-    }
-
-    .header-logo img {
-        height: 48px;
-    }
-
-    .nav {
-        display: none;
-    }
-}
-
 /* =====================================================
-   HEADER LOGO (web-версия)
+    HEADER LOGO (web-версия)
 ===================================================== */
 
 .header-logo {
@@ -158,14 +136,9 @@ h3 {
     width: auto;
     display: block;
 }
-@media (min-width: 769px) {
-    .nav {
-        display: flex !important;
-    }
-}
 
 /* =====================================================
-   BURGER MENU
+    BURGER MENU
 ===================================================== */
 
 .burger {
@@ -183,63 +156,6 @@ h3 {
     background: #fff;
     margin: 5px 0;
     transition: opacity 0.2s ease;
-}
-
-/* мобильная версия */
-@media (max-width: 768px) {
-
-    .burger {
-        display: block;
-    }
-
-    .nav {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: #0a0a0a;
-        display: none;
-        flex-direction: column;
-        padding: 16px 0;
-        gap: 16px;
-    }
-
-    .nav.active {
-        display: flex;
-    }
-
-    .nav a {
-        font-size: 18px;
-    }
-
-    .close-menu {
-        display: block;
-    }
-}
-@media (max-width: 768px) {
-
-    .burger.active span:nth-child(1) {
-        transform: translateY(7px) rotate(45deg);
-    }
-
-    .burger.active span:nth-child(2) {
-        opacity: 0;
-    }
-
-    .burger.active span:nth-child(3) {
-        transform: translateY(-7px) rotate(-45deg);
-    }
-
-    .burger span {
-        transition: transform 0.3s ease, opacity 0.2s ease;
-    }
-}
-@media (max-width: 768px) {
-
-    .burger {
-        position: relative;
-        z-index: 30; /* ВЫШЕ nav */
-    }
 }
 
 
@@ -358,6 +274,10 @@ h3 {
         width: 100%;
         max-width: 320px;
     }
+
+    .hero-buttons button {
+        display: none;
+    }
 }
 
 
@@ -461,21 +381,6 @@ h3 {
 }
 
 @media (max-width: 768px) {
-
-    .advantages-list,
-    .approach {
-        gap: 20px;
-    }
-
-    .approach {
-        flex-direction: column;
-    }
-
-    .swiper {
-        padding-bottom: 40px;
-    }
-}
-@media (max-width: 768px) {
     .gallery-container {
         margin-top: 40px;
     }
@@ -484,8 +389,11 @@ h3 {
         border-radius: 12px;
         overflow: hidden;
     }
-}
 
+    .swiper {
+        padding-bottom: 40px;
+    }
+}
 
 /* ===== МОБИЛКА ===== */
 
@@ -506,9 +414,7 @@ h3 {
     .mySwiper .swiper-slide::after {
         display: none;
     }
-}
 
-@media (max-width: 767px) {
     .mySwiper .gallery-pagination {
         display: none;
     }
@@ -534,6 +440,12 @@ h3 {
     padding: 24px;
     background: #111;
     border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+    .advantages-list {
+        gap: 20px;
+    }
 }
 
 
@@ -562,6 +474,13 @@ h3 {
 .approach-item p {
     opacity: 0.85;
     line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .approach {
+        gap: 20px;
+        flex-direction: column;
+    }
 }
 
 /* =====================================================
@@ -734,17 +653,12 @@ h3 {
     height: 360px;
     border: none;
 }
-@media (max-width: 768px) {
 
+@media (max-width: 768px) {
     .contacts-map iframe {
         height: 260px;
     }
 
-    .contacts-link {
-        font-size: 22px;
-    }
-}
-@media (max-width: 768px) {
     .contacts-link {
         font-size: 22px;
         margin-bottom: 24px;
@@ -1001,5 +915,9 @@ h3 {
     text-decoration: none;
     /* Цвет, стили текста унаследованы из базовых стилей */
     text-align: center;
+  }
+
+  .header .btn {
+    display: none;
   }
 }
