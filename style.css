@@ -356,7 +356,7 @@ section {
 }
 
 #about h2 {
-    margin-bottom: 24px;
+    margin-bottom: 32px;
 }
 
 #about .main-statement {
@@ -627,7 +627,7 @@ section {
 }
 
 #contacts h2 {
-    margin-bottom: 20px;
+    margin-bottom: 28px;
 }
 
 .contacts-text {
@@ -921,7 +921,7 @@ section {
     }
 
     h2 {
-        font-size: 26px;
+        font-size: 28px;
     }
 }
 
