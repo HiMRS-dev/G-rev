@@ -756,6 +756,7 @@ h3 {
     object-fit: contain;
     position: relative;
     z-index: 2;
+    border-radius: 14px;
 }
 
 .close {
