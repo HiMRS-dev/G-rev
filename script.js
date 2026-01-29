@@ -120,7 +120,6 @@ function initGallery() {
     images.forEach(img => {
       const slide = document.createElement("div");
       slide.className = "swiper-slide image-slide";
-      slide.style.setProperty('--bg-image', `url(${img.src})`);
 
       const image = document.createElement("img");
       image.src = img.src;
