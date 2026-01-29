@@ -151,13 +151,6 @@ function initGallery() {
     img.addEventListener("click", () => openModal(galleryImages, index));
   });
 
-  // Reviews images
-  const reviewImages = document.querySelectorAll(".reviewsSwiper img");
-  console.log('Review images found:', reviewImages);
-  reviewImages.forEach((img, index) => {
-    img.addEventListener("click", () => openModal(reviewImages, index));
-  });
-
   closeBtn?.addEventListener("click", closeModal);
 
   modal.addEventListener("click", (e) => {
