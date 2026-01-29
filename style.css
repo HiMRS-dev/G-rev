@@ -918,39 +918,6 @@ h3 {
 
 /* ===== PORTAL MOBILE MENU ===== */
 
-/* ===== PORTAL MOBILE MENU (SAFE MODE) ===== */
-
-#mobile-menu {
-    position: fixed;
-    inset: 0;
-    height: 100dvh;
-
-    background: #0a0a0a;
-    display: none;
-
-    justify-content: center;
-    align-items: center;
-
-    z-index: 9999;
-}
-
-#mobile-menu.active {
-    display: flex;
-}
-
-.mobile-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-.mobile-nav a {
-    font-size: 22px;
-    font-weight: 500;
-    text-decoration: none;
-    color: #fff;
-    text-align: center;
-}
 
 
 /* =====================================================

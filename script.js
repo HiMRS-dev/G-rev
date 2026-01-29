@@ -10,19 +10,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     openForm?.addEventListener("click", () => {
         modal.classList.add("show");
+        modal.setAttribute("aria-hidden", "false");
     });
 
     openForm2?.addEventListener("click", () => {
         modal.classList.add("show");
+        modal.setAttribute("aria-hidden", "false");
     });
 
     closeForm?.addEventListener("click", () => {
         modal.classList.remove("show");
+        modal.setAttribute("aria-hidden", "true");
     });
 
     // 🔥 Закрытие по клику вне формы
     modal?.addEventListener("click", () => {
         modal.classList.remove("show");
+        modal.setAttribute("aria-hidden", "true");
     });
 
     modalContent?.addEventListener("click", (e) => {
@@ -46,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Заявка отправлена!");
             this.reset();
             modal.classList.remove("show");
+            modal.setAttribute("aria-hidden", "true");
         }, err => {
             console.error(err);
             alert("Ошибка отправки");
@@ -126,6 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     closeImageModal.addEventListener("click", () => {
         imageModal.classList.remove("show");
+        imageModal.setAttribute("aria-hidden", "true");
         if (imageSwiper) {
             imageSwiper.destroy();
         }
@@ -134,6 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
     imageModal.addEventListener("click", (e) => {
         if (e.target === imageModal) {
             imageModal.classList.remove("show");
+            imageModal.setAttribute("aria-hidden", "true");
             if (imageSwiper) {
                 imageSwiper.destroy();
             }
@@ -156,6 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         imageModal.classList.add("show");
+        imageModal.setAttribute("aria-hidden", "false");
 
         imageSwiper = new Swiper(".imageSwiper", {
             initialSlide: startIndex,
@@ -189,6 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
     burger.addEventListener("click", () => {
         burger.classList.toggle("active");
         nav.classList.toggle("active");
+        burger.setAttribute("aria-expanded", burger.classList.contains("active"));
     });
     
     closeMenu?.addEventListener("click", () => {

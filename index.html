@@ -32,7 +32,7 @@
             <a href="#contacts">Контакты</a>
         </nav>
 
-        <button class="burger" aria-label="Открыть меню">
+        <button class="burger" aria-label="Открыть меню" aria-expanded="false">
             <span></span>
             <span></span>
             <span></span>
@@ -227,15 +227,15 @@
 
 
 <!-- ====== МОДАЛКА ФОРМЫ ====== -->
-<div class="modal" id="formModal">
+<div class="modal" id="formModal" aria-hidden="true">
     <div class="modal-content">
         <span class="close" id="closeForm">&times;</span>
         <h2>Записаться</h2>
 
         <form id="contactForm">
-            <input type="text" name="name" placeholder="Имя" required>
-            <input type="tel" name="phone" placeholder="Телефон" required>
-            <select name="contact_method">
+            <input type="text" name="name" placeholder="Имя" aria-label="Имя" required>
+            <input type="tel" name="phone" placeholder="Телефон" aria-label="Телефон" required>
+            <select name="contact_method" aria-label="Способ связи">
                 <option value="call">Позвонить</option>
                 <option value="whatsapp">WhatsApp</option>
             </select>
@@ -245,18 +245,9 @@
 </div>
 
 
-<!-- PORTAL MOBILE MENU -->
-<div id="mobile-menu" aria-hidden="true">
-    <nav class="mobile-nav">
-        <a href="#about">О нас</a>
-        <a href="#lessons">Наш подход</a>
-        <a href="#gallery">Галерея</a>
-        <a href="#contacts">Контакты</a>
-    </nav>
-</div>
 
 <!-- IMAGE MODAL -->
-<div class="modal" id="imageModal">
+<div class="modal" id="imageModal" aria-hidden="true">
     <span class="close" id="closeImageModal">&times;</span>
     <div class="swiper imageSwiper">
         <div class="swiper-wrapper">
