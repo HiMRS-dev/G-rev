@@ -855,7 +855,43 @@ h3 {
 }
 
 /* =====================================================
-   14. UI COMPONENTS
+    IMAGE MODAL
+===================================================== */
+
+#imageModal .swiper {
+    width: 100%;
+    height: 100%;
+}
+
+#imageModal .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#imageModal .swiper-slide img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+
+#imageModal .swiper-button-prev,
+#imageModal .swiper-button-next {
+    color: #40c4db;
+}
+
+#imageModal .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    z-index: 1001;
+    font-size: 40px;
+    cursor: pointer;
+    color: #fff;
+}
+
+/* =====================================================
+    14. UI COMPONENTS
 ===================================================== */
 
 .btn {

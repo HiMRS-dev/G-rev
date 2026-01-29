@@ -119,6 +119,68 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
+    // ===== IMAGE MODAL =====
+    const imageModal = document.getElementById("imageModal");
+    const closeImageModal = document.getElementById("closeImageModal");
+    let imageSwiper;
+
+    closeImageModal.addEventListener("click", () => {
+        imageModal.classList.remove("show");
+        if (imageSwiper) {
+            imageSwiper.destroy();
+        }
+    });
+
+    imageModal.addEventListener("click", (e) => {
+        if (e.target === imageModal) {
+            imageModal.classList.remove("show");
+            if (imageSwiper) {
+                imageSwiper.destroy();
+            }
+        }
+    });
+
+    function openImageModal(imagesSelector, startIndex) {
+        const images = document.querySelectorAll(imagesSelector);
+        const wrapper = document.querySelector("#imageModal .swiper-wrapper");
+        wrapper.innerHTML = "";
+
+        images.forEach(img => {
+            const slide = document.createElement("div");
+            slide.className = "swiper-slide";
+            const newImg = document.createElement("img");
+            newImg.src = img.src;
+            newImg.alt = img.alt;
+            slide.appendChild(newImg);
+            wrapper.appendChild(slide);
+        });
+
+        imageModal.classList.add("show");
+
+        imageSwiper = new Swiper(".imageSwiper", {
+            initialSlide: startIndex,
+            navigation: {
+                nextEl: "#imageModal .swiper-button-next",
+                prevEl: "#imageModal .swiper-button-prev"
+            }
+        });
+    }
+
+    // Gallery images
+    document.querySelectorAll(".mySwiper img").forEach((img, index) => {
+        img.addEventListener("click", () => {
+            openImageModal(".mySwiper .swiper-slide img", index);
+        });
+    });
+
+    // Reviews images
+    document.querySelectorAll(".reviewsSwiper img").forEach((img, index) => {
+        img.addEventListener("click", () => {
+            openImageModal(".reviewsSwiper .swiper-slide img", index);
+        });
+    });
+
+
     // ===== BURGER + OVERLAY =====
     const burger = document.querySelector(".burger");
     const nav = document.querySelector(".nav");
