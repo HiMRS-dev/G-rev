@@ -135,9 +135,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     
     nav.querySelectorAll("a").forEach(link => {
-        link.addEventListener("click", () => {
+        link.addEventListener("click", (e) => {
+            const targetId = link.getAttribute("href");
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                const headerHeight = document.querySelector(".header").offsetHeight;
+                const elementTop = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                const offsetPosition = elementTop - headerHeight - 20; // extra space
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
             burger.classList.remove("active");
             nav.classList.remove("active");
+            e.preventDefault(); // prevent default anchor jump
         });
     });
 
