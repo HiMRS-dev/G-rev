@@ -1,4 +1,11 @@
 /**
+ * Ссылки на Swiper-объекты для управления слайдерами через клавиатуру
+ */
+let gallerySwiper;
+let reviewsSwiper;
+let imageModalSwiper;
+
+/**
  * Инициализация всех компонентов при загрузке DOM
  */
 document.addEventListener("DOMContentLoaded", () => {
@@ -9,7 +16,37 @@ document.addEventListener("DOMContentLoaded", () => {
   initLazyLoading();
   initMap();
   initScrollAnimations();
+  initKeyboardNavigation();
 });
+
+/**
+ * Инициализация клавиатурной навигации для слайдеров
+ */
+function initKeyboardNavigation() {
+  document.addEventListener("keydown", (e) => {
+    // Стрелка вправо
+    if (e.key === "ArrowRight") {
+      if (imageModalSwiper && document.getElementById("imageModal").classList.contains("show")) {
+        imageModalSwiper.slideNext();
+      } else if (reviewsSwiper) {
+        reviewsSwiper.slideNext();
+      } else if (gallerySwiper) {
+        gallerySwiper.slideNext();
+      }
+    }
+
+    // Стрелка влево
+    if (e.key === "ArrowLeft") {
+      if (imageModalSwiper && document.getElementById("imageModal").classList.contains("show")) {
+        imageModalSwiper.slidePrev();
+      } else if (reviewsSwiper) {
+        reviewsSwiper.slidePrev();
+      } else if (gallerySwiper) {
+        gallerySwiper.slidePrev();
+      }
+    }
+  });
+}
 
 /**
  * Инициализация scroll-анимаций (fade-up)
@@ -149,7 +186,7 @@ function initGallery() {
     modal.classList.add("show");
     modal.setAttribute("aria-hidden", "false");
 
-    imageSwiper = new Swiper(".imageSwiper", {
+    imageModalSwiper = new Swiper(".imageSwiper", {
       initialSlide: index,
       navigation: {
         nextEl: ".imageSwiper .swiper-button-next",
@@ -161,7 +198,7 @@ function initGallery() {
   const closeModal = () => {
     modal.classList.remove("show");
     modal.setAttribute("aria-hidden", "true");
-    imageSwiper?.destroy();
+    imageModalSwiper?.destroy();
   };
 
   galleryImages.forEach((img, index) => {
@@ -223,7 +260,7 @@ function initGallery() {
  * Инициализация слайдеров Swiper для галереи и отзывов
  */
 function initSwipers() {
-  new Swiper(".mySwiper", {
+  gallerySwiper = new Swiper(".mySwiper", {
     slidesPerView: 3,
     spaceBetween: 30,
     centeredSlides: true,
@@ -252,7 +289,7 @@ function initSwipers() {
     }
   });
 
-  new Swiper(".reviewsSwiper", {
+  reviewsSwiper = new Swiper(".reviewsSwiper", {
     slidesPerView: 1,
     loop: true,
     navigation: {
