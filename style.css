@@ -2,6 +2,34 @@
    1. BASE (основа)
 ===================================================== */
 
+/* Fade-up animation */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hero animation */
+@keyframes heroIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-content {
+  animation: heroIn 0.8s ease-out both;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -438,6 +466,21 @@ h3 {
     padding: 24px;
     background: #111;
     border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.advantages-list li:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 30px rgba(64, 196, 219, 0.25);
+}
+
+.approach-item {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.approach-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 30px rgba(64, 196, 219, 0.25);
 }
 
 @media (max-width: 768px) {
@@ -850,11 +893,16 @@ h3 {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
 }
 
 .btn:hover {
     background: #4dd0e1;
+    box-shadow: 0 0 18px rgba(64, 196, 219, 0.45);
+}
+
+.btn:active {
+    transform: scale(0.96);
 }
 
 .btn-outline {
@@ -954,5 +1002,14 @@ h3 {
 
   .header .btn {
     display: none;
+  }
+
+  /* Показываем кнопку закрытия меню */
+  .close-menu {
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
   }
 }

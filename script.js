@@ -8,7 +8,23 @@ document.addEventListener("DOMContentLoaded", () => {
   initSwipers();
   initLazyLoading();
   initMap();
+  initScrollAnimations();
 });
+
+/**
+ * Инициализация scroll-анимаций (fade-up)
+ */
+function initScrollAnimations() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+}
 
 /**
  * Инициализация бургер-меню и навигации
@@ -217,6 +233,9 @@ function initSwipers() {
     resistance: true,
     resistanceRatio: 0.65,
     watchSlidesProgress: true,
+    speed: 600,
+    effect: "slide",
+    grabCursor: true,
     navigation: {
       nextEl: "#about .swiper-button-next",
       prevEl: "#about .swiper-button-prev"
