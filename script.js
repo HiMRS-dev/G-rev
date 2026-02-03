@@ -215,7 +215,7 @@ function initGallery() {
     if (e.key === "Escape") closeModal();
   });
 
-  // ===== FORM SUBMIT =====
+   // ===== FORM SUBMIT =====
   const form = document.getElementById("contactForm");
 
   form?.addEventListener("submit", function (e) {
@@ -224,7 +224,8 @@ function initGallery() {
     // Валидация
     const name = form.name.value.trim();
     const phone = form.phone.value.trim();
-    if (!name || !phone) {
+    const age = form.age.value.trim();
+    if (!name || !phone || !age) {
       statusMessage.textContent = "Пожалуйста, заполните все поля.";
       alert("Пожалуйста, заполните все поля.");
       return;
