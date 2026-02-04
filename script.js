@@ -215,7 +215,7 @@ function initGallery() {
     if (e.key === "Escape") closeModal();
   });
 
-   // ===== FORM SUBMIT =====
+  // ===== FORM SUBMIT =====
   const form = document.getElementById("contactForm");
 
   form?.addEventListener("submit", function (e) {
@@ -236,21 +236,38 @@ function initGallery() {
     submitBtn.disabled = true;
     submitBtn.textContent = "Отправка...";
 
-    emailjs.sendForm(
-      "service_tfd3dht",
-      "template_gy7d0d4",
-      this
-    ).then(() => {
+    // Отправка данных через fetch
+    fetch("/api/lead", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: name,
+        phone: phone,
+        age: age
+      })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then(() => {
       statusMessage.textContent = "Заявка отправлена успешно.";
-      alert("Заявка отправлена!");
+      alert("Заявка отправлена");
       this.reset();
-      closeModal();
+      const modal = document.getElementById("formModal");
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden", "true");
       submitBtn.disabled = false;
       submitBtn.textContent = originalText;
-    }, err => {
+    })
+    .catch(err => {
       console.error(err);
-      statusMessage.textContent = "Ошибка отправки. Проверьте подключение к интернету.";
-      alert("Ошибка отправки. Проверьте подключение к интернету.");
+      statusMessage.textContent = "Ошибка отправки заявки.";
+      alert("Ошибка отправки заявки");
       submitBtn.disabled = false;
       submitBtn.textContent = originalText;
     });
