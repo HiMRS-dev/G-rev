@@ -216,61 +216,43 @@ function initGallery() {
   });
 
   // ===== FORM SUBMIT =====
-  const form = document.getElementById("contactForm");
-
-  form?.addEventListener("submit", function (e) {
+  document.getElementById("contactForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    // Валидация
-    const name = form.name.value.trim();
-    const phone = form.phone.value.trim();
-    const age = form.age.value.trim();
-    if (!name || !phone || !age) {
-      statusMessage.textContent = "Пожалуйста, заполните все поля.";
-      alert("Пожалуйста, заполните все поля.");
-      return;
-    }
+    const form = e.target;
 
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Отправка...";
+    const data = {
+      name: form.name.value,
+      phone: form.phone.value,
+      age: form.age.value
+    };
 
-    // Отправка данных через fetch
-    fetch("/api/lead", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        name: name,
-        phone: phone,
-        age: age
-      })
-    })
-    .then(response => {
+    try {
+      const response = await fetch("/api/lead", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error("Request failed");
       }
-      return response.json();
-    })
-    .then(() => {
-      statusMessage.textContent = "Заявка отправлена успешно.";
+
+      // ✅ УСПЕХ
       alert("Заявка отправлена");
-      this.reset();
-      const modal = document.getElementById("formModal");
-      modal.classList.remove("show");
-      modal.setAttribute("aria-hidden", "true");
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
-    })
-    .catch(err => {
-      console.error(err);
-      statusMessage.textContent = "Ошибка отправки заявки.";
+      form.reset();
+
+      // ✅ Закрываем модалку через существующую кнопку
+      const closeBtn = document.querySelector("#formModal .close");
+      if (closeBtn) {
+        closeBtn.click();
+      }
+
+    } catch (error) {
       alert("Ошибка отправки заявки");
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
-    });
+    }
   });
 }
 
