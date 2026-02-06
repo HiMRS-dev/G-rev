@@ -235,6 +235,8 @@ function initGallery() {
     const submitBtn = form.querySelector("button[type=\"submit\"]");
     const honeypot = form.querySelector("input[name=\"company\"]");
     const formStarted = form.querySelector("input[name=\"form_started_at\"]");
+    const rawName = String(form.name.value || "");
+    const cleanName = rawName.replace(/[^A-Za-zА-Яа-яЁё\s-]/g, "").trim();
 
     // Anti-spam: honeypot must stay empty
     if (honeypot && honeypot.value.trim() !== "") {
@@ -261,18 +263,25 @@ function initGallery() {
       // ignore storage errors
     }
 
-    const ageValue = form.age.value;
-    const cleanName = String(form.name.value || "").replace(/[^A-Za-zА-Яа-яЁё\s-]/g, "").trim();
-    const data = {
-      name: cleanName,
-      phone: form.phone.value,
-      age: ageValue
-    };
+    if (rawName !== cleanName) {
+      form.name.value = cleanName;
+    }
 
     if (!cleanName) {
       alert("Пожалуйста, введите имя без цифр.");
       return;
     }
+
+    if (!form.reportValidity()) {
+      return;
+    }
+
+    const ageValue = form.age.value;
+    const data = {
+      name: cleanName,
+      phone: form.phone.value,
+      age: ageValue
+    };
 
     try {
       if (submitBtn) submitBtn.disabled = true;
