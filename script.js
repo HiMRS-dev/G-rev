@@ -268,7 +268,7 @@ function initGallery() {
     }
 
     if (!cleanName) {
-      alert("Пожалуйста, введите имя без цифр.");
+        alert("Форма заполнена неверно. Пожалуйста, исправьте ошибки.");
       return;
     }
 
@@ -313,7 +313,7 @@ function initGallery() {
       }
 
     } catch (error) {
-      alert("Ошибка отправки заявки");
+      alert("Форма заполнена неверно. Пожалуйста, исправьте ошибки.");
     } finally {
       if (submitBtn) submitBtn.disabled = false;
     }
