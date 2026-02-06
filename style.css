@@ -628,6 +628,14 @@ h3 {
     opacity: 0.85;
 }
 
+@media (hover: hover) and (pointer: fine) {
+    .contacts-link {
+        pointer-events: none;
+        cursor: default;
+        user-select: text;
+    }
+}
+
 .contacts-messengers {
     display: flex;
     gap: 20px;
