@@ -739,6 +739,10 @@ h3 {
 }
 
 @media (max-width: 768px) {
+  .contacts-link {
+    font-size: 20px;
+  }
+
   .contacts-map {
     height: 260px;
   }
