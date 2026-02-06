@@ -254,10 +254,12 @@ function initGallery() {
       // ignore storage errors
     }
 
+    const ageValue = form.age.value;
     const data = {
       name: form.name.value,
       phone: form.phone.value,
-      age: form.age.value
+      age: ageValue,
+      contactMethod: ageValue
     };
 
     try {

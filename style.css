@@ -839,8 +839,7 @@ h3 {
     pointer-events: none;
 }
 
-#contactForm input,
-#contactForm select {
+#contactForm input {
     width: 100%;
     padding: 12px;
     border-radius: 8px;
