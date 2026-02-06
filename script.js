@@ -298,7 +298,7 @@ function initGallery() {
       }
 
       // ✅ УСПЕХ
-      alert("Заявка отправлена");
+      alert("Спасибо! Все заявки обрабатываются с 10:00 до 19:00 по сахалинскому времени. Мы обязательно с вами свяжемся.");
       try {
         localStorage.setItem("contactFormLastSubmit", String(Date.now()));
       } catch (_) {
