@@ -98,6 +98,8 @@ function initFormModal() {
   const modal = document.getElementById("formModal");
   const openButtons = document.querySelectorAll("#openForm, #openForm2");
   const closeButton = document.getElementById("closeForm");
+  const form = document.getElementById("contactForm");
+  const formStartedInput = form?.querySelector("input[name=\"form_started_at\"]");
 
   if (!modal) return;
 
@@ -115,6 +117,9 @@ function initFormModal() {
   const openModal = () => {
     modal.classList.add("show");
     modal.setAttribute("aria-hidden", "false");
+    if (formStartedInput) {
+      formStartedInput.value = String(Date.now());
+    }
   };
 
   const closeModal = () => {
@@ -220,6 +225,34 @@ function initGallery() {
     e.preventDefault();
 
     const form = e.target;
+    const submitBtn = form.querySelector("button[type=\"submit\"]");
+    const honeypot = form.querySelector("input[name=\"company\"]");
+    const formStarted = form.querySelector("input[name=\"form_started_at\"]");
+
+    // Anti-spam: honeypot must stay empty
+    if (honeypot && honeypot.value.trim() !== "") {
+      return;
+    }
+
+    // Anti-spam: minimum time on form (5s)
+    if (formStarted && formStarted.value) {
+      const startedAt = Number(formStarted.value);
+      if (Number.isFinite(startedAt) && Date.now() - startedAt < 5000) {
+        alert("Пожалуйста, заполните форму чуть внимательнее.");
+        return;
+      }
+    }
+
+    // Anti-spam: rate limit (1 request per 60s)
+    try {
+      const lastSubmit = Number(localStorage.getItem("contactFormLastSubmit"));
+      if (Number.isFinite(lastSubmit) && Date.now() - lastSubmit < 60000) {
+        alert("Слишком часто. Попробуйте позже.");
+        return;
+      }
+    } catch (_) {
+      // ignore storage errors
+    }
 
     const data = {
       name: form.name.value,
@@ -228,6 +261,7 @@ function initGallery() {
     };
 
     try {
+      if (submitBtn) submitBtn.disabled = true;
       const response = await fetch("/api/lead", {
         method: "POST",
         headers: {
@@ -242,6 +276,11 @@ function initGallery() {
 
       // ✅ УСПЕХ
       alert("Заявка отправлена");
+      try {
+        localStorage.setItem("contactFormLastSubmit", String(Date.now()));
+      } catch (_) {
+        // ignore storage errors
+      }
       form.reset();
 
       // ✅ Закрываем модалку через существующую кнопку
@@ -252,6 +291,8 @@ function initGallery() {
 
     } catch (error) {
       alert("Ошибка отправки заявки");
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
     }
   });
 }
