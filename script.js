@@ -100,6 +100,7 @@ function initFormModal() {
   const closeButton = document.getElementById("closeForm");
   const form = document.getElementById("contactForm");
   const nameInput = form?.querySelector("input[name=\"name\"]");
+  const phoneInput = form?.querySelector("input[name=\"phone\"]");
   const formStartedInput = form?.querySelector("input[name=\"form_started_at\"]");
 
   if (!modal) return;
@@ -134,6 +135,12 @@ function initFormModal() {
   if (nameInput) {
     nameInput.addEventListener("input", () => {
       nameInput.value = nameInput.value.replace(/[^A-Za-zА-Яа-яЁё\s-]/g, "");
+    });
+  }
+
+  if (phoneInput) {
+    phoneInput.addEventListener("input", () => {
+      phoneInput.value = phoneInput.value.replace(/[^0-9+\-()\s]/g, "");
     });
   }
 
@@ -237,6 +244,8 @@ function initGallery() {
     const formStarted = form.querySelector("input[name=\"form_started_at\"]");
     const rawName = String(form.name.value || "");
     const cleanName = rawName.replace(/[^A-Za-zА-Яа-яЁё\s-]/g, "").trim();
+    const rawPhone = String(form.phone.value || "");
+    const cleanPhone = rawPhone.replace(/[^0-9+\-()\s]/g, "").trim();
 
     // Anti-spam: honeypot must stay empty
     if (honeypot && honeypot.value.trim() !== "") {
@@ -266,6 +275,9 @@ function initGallery() {
     if (rawName !== cleanName) {
       form.name.value = cleanName;
     }
+    if (rawPhone !== cleanPhone) {
+      form.phone.value = cleanPhone;
+    }
 
     if (!cleanName) {
         alert("Форма заполнена неверно. Пожалуйста, исправьте ошибки.");
@@ -279,7 +291,7 @@ function initGallery() {
     const ageValue = form.age.value;
     const data = {
       name: cleanName,
-      phone: form.phone.value,
+      phone: cleanPhone,
       age: ageValue
     };
 
