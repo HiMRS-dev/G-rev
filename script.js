@@ -310,10 +310,10 @@ function initGallery() {
       }
     }
 
-    // Anti-spam: rate limit (1 request per 60s)
+    // Anti-spam: rate limit (1 request per 30s)
     try {
       const lastSubmit = Number(localStorage.getItem("contactFormLastSubmit"));
-      if (Number.isFinite(lastSubmit) && Date.now() - lastSubmit < 60000) {
+      if (Number.isFinite(lastSubmit) && Date.now() - lastSubmit < 30000) {
         showNotice("Слишком часто. Попробуйте позже.", "error", "Ошибка");
         return;
       }
