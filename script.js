@@ -10,6 +10,7 @@ let imageModalSwiper;
  */
 document.addEventListener("DOMContentLoaded", () => {
   initMenu();
+  initNotice();
   initFormModal();
   initGallery();
   initSwipers();
@@ -18,6 +19,51 @@ document.addEventListener("DOMContentLoaded", () => {
   initScrollAnimations();
   initKeyboardNavigation();
 });
+
+let noticeState;
+
+function initNotice() {
+  const noticeModal = document.getElementById("noticeModal");
+  if (!noticeModal) return;
+
+  const noticeTitle = document.getElementById("noticeTitle");
+  const noticeText = document.getElementById("noticeText");
+  const noticeOk = document.getElementById("noticeOk");
+  const noticeClose = document.getElementById("closeNotice");
+  const noticeContent = noticeModal.querySelector(".notice-content");
+
+  const closeNotice = () => {
+    noticeModal.classList.remove("show");
+    noticeModal.setAttribute("aria-hidden", "true");
+  };
+
+  noticeOk?.addEventListener("click", closeNotice);
+  noticeClose?.addEventListener("click", closeNotice);
+  noticeModal.addEventListener("click", (e) => {
+    if (e.target === noticeModal) closeNotice();
+  });
+
+  noticeState = {
+    noticeModal,
+    noticeTitle,
+    noticeText,
+    noticeContent,
+    closeNotice
+  };
+}
+
+function showNotice(message, type = "info", title = "Уведомление") {
+  if (!noticeState) return;
+  const { noticeModal, noticeTitle, noticeText, noticeContent } = noticeState;
+  if (!noticeModal || !noticeTitle || !noticeText || !noticeContent) return;
+  noticeTitle.textContent = title;
+  noticeText.textContent = message;
+  noticeContent.classList.remove("success", "error");
+  if (type === "success") noticeContent.classList.add("success");
+  if (type === "error") noticeContent.classList.add("error");
+  noticeModal.classList.add("show");
+  noticeModal.setAttribute("aria-hidden", "false");
+}
 
 /**
  * Инициализация клавиатурной навигации для слайдеров
@@ -149,7 +195,10 @@ function initFormModal() {
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeModal();
+    if (e.key === "Escape") {
+      closeModal();
+      noticeState?.closeNotice?.();
+    }
   });
 }
 
@@ -256,7 +305,7 @@ function initGallery() {
     if (formStarted && formStarted.value) {
       const startedAt = Number(formStarted.value);
       if (Number.isFinite(startedAt) && Date.now() - startedAt < 5000) {
-        alert("Пожалуйста, заполните форму чуть внимательнее.");
+        showNotice("Пожалуйста, заполните форму чуть внимательнее.", "error", "Ошибка");
         return;
       }
     }
@@ -265,7 +314,7 @@ function initGallery() {
     try {
       const lastSubmit = Number(localStorage.getItem("contactFormLastSubmit"));
       if (Number.isFinite(lastSubmit) && Date.now() - lastSubmit < 60000) {
-        alert("Слишком часто. Попробуйте позже.");
+        showNotice("Слишком часто. Попробуйте позже.", "error", "Ошибка");
         return;
       }
     } catch (_) {
@@ -280,7 +329,7 @@ function initGallery() {
     }
 
     if (!cleanName) {
-        alert("Форма заполнена неверно. Пожалуйста, исправьте ошибки.");
+      showNotice("Форма заполнена неверно. Пожалуйста, исправьте ошибки.", "error", "Ошибка");
       return;
     }
 
@@ -310,7 +359,11 @@ function initGallery() {
       }
 
       // ✅ УСПЕХ
-      alert("Спасибо! Все заявки обрабатываются с 10:00 до 19:00 по сахалинскому времени. Мы обязательно с вами свяжемся.");
+      showNotice(
+        "Спасибо! Все заявки обрабатываются с 10:00 до 19:00 по сахалинскому времени. Мы обязательно с вами свяжемся.",
+        "success",
+        "Заявка принята"
+      );
       try {
         localStorage.setItem("contactFormLastSubmit", String(Date.now()));
       } catch (_) {
@@ -325,7 +378,7 @@ function initGallery() {
       }
 
     } catch (error) {
-      alert("Форма заполнена неверно. Пожалуйста, исправьте ошибки.");
+      showNotice("Форма заполнена неверно. Пожалуйста, исправьте ошибки.", "error", "Ошибка");
     } finally {
       if (submitBtn) submitBtn.disabled = false;
     }
