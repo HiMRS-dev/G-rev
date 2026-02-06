@@ -99,6 +99,7 @@ function initFormModal() {
   const openButtons = document.querySelectorAll("#openForm, #openForm2");
   const closeButton = document.getElementById("closeForm");
   const form = document.getElementById("contactForm");
+  const nameInput = form?.querySelector("input[name=\"name\"]");
   const formStartedInput = form?.querySelector("input[name=\"form_started_at\"]");
 
   if (!modal) return;
@@ -129,6 +130,12 @@ function initFormModal() {
 
   openButtons.forEach(btn => btn.addEventListener("click", openModal));
   closeButton?.addEventListener("click", closeModal);
+
+  if (nameInput) {
+    nameInput.addEventListener("input", () => {
+      nameInput.value = nameInput.value.replace(/[^A-Za-zА-Яа-яЁё\s-]/g, "");
+    });
+  }
 
   modal.addEventListener("click", (e) => {
     if (e.target === modal) closeModal();
@@ -255,12 +262,17 @@ function initGallery() {
     }
 
     const ageValue = form.age.value;
+    const cleanName = String(form.name.value || "").replace(/[^A-Za-zА-Яа-яЁё\s-]/g, "").trim();
     const data = {
-      name: form.name.value,
+      name: cleanName,
       phone: form.phone.value,
-      age: ageValue,
-      contactMethod: ageValue
+      age: ageValue
     };
+
+    if (!cleanName) {
+      alert("Пожалуйста, введите имя без цифр.");
+      return;
+    }
 
     try {
       if (submitBtn) submitBtn.disabled = true;
