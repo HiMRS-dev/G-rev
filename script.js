@@ -440,21 +440,26 @@ function initMap() {
 
   const maps = {
     hospital:
-      "https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A5c6d9dc8d250efcbe659485476780c5afa5f5fc6e3da96abfa0e0268fb0555c0&lang=ru_RU&scroll=true",
+      "https://yandex.ru/map-widget/v1/?um=constructor%3A5c6d9dc8d250efcbe659485476780c5afa5f5fc6e3da96abfa0e0268fb0555c0&source=constructor&lang=ru_RU&scroll=true",
     khabarovsk:
-      "https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A373534893120773fa2c4839d3ad97d4540f7d12c7d7a4949f3a931f60b7dfe0b&lang=ru_RU&scroll=true",
+      "https://yandex.ru/map-widget/v1/?um=constructor%3A373534893120773fa2c4839d3ad97d4540f7d12c7d7a4949f3a931f60b7dfe0b&source=constructor&lang=ru_RU&scroll=true",
   };
 
   function loadMap(key) {
-    // 🔥 Полностью удаляем предыдущую карту
+    // Полностью удаляем предыдущую карту
     mapContainer.innerHTML = "";
 
-    const script = document.createElement("script");
-    script.src = maps[key];
-    script.async = true;
-    script.charset = "utf-8";
+    const iframe = document.createElement("iframe");
+    iframe.src = maps[key];
+    iframe.width = "100%";
+    iframe.height = "100%";
+    iframe.allowFullscreen = true;
+    iframe.loading = "lazy";
+    iframe.referrerPolicy = "no-referrer-when-downgrade";
+    iframe.title = key === "hospital" ? "Карта студии на Больничной, 55" : "Карта студии на Хабаровской, 43";
+    iframe.style.border = "0";
 
-    mapContainer.appendChild(script);
+    mapContainer.appendChild(iframe);
   }
 
   // Карта по умолчанию
