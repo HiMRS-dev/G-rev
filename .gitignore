@@ -1,2 +1,11 @@
+# Editor / OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
 # VS Code workspace file (local editor settings)
-guitarninja.code-workspace
+*.code-workspace
+.vscode/

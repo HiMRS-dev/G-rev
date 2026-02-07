@@ -414,10 +414,14 @@ function initMap() {
   };
 
   const mapFrames = {};
+  const placeholder = document.createElement("div");
+  placeholder.className = "map-placeholder";
+  placeholder.textContent = "Загрузка карты...";
+  mapContainer.appendChild(placeholder);
 
-  Object.entries(maps).forEach(([key, src]) => {
+  function createMapIframe(key) {
     const iframe = document.createElement("iframe");
-    iframe.src = src;
+    iframe.src = maps[key];
     iframe.width = "100%";
     iframe.height = "100%";
     iframe.allowFullscreen = true;
@@ -426,12 +430,22 @@ function initMap() {
     iframe.title = mapTitles[key];
     iframe.style.border = "0";
     iframe.style.display = "none";
+    return iframe;
+  }
 
+  function ensureMapLoaded(key) {
+    if (!maps[key]) return null;
+    if (mapFrames[key]) return mapFrames[key];
+
+    placeholder.remove();
+    const iframe = createMapIframe(key);
     mapFrames[key] = iframe;
     mapContainer.appendChild(iframe);
-  });
+    return iframe;
+  }
 
   function showMap(key) {
+    ensureMapLoaded(key);
     Object.entries(mapFrames).forEach(([mapKey, frame]) => {
       frame.style.display = mapKey === key ? "block" : "none";
     });
@@ -446,7 +460,32 @@ function initMap() {
   buttons.forEach((btn) => {
     btn.classList.toggle("active", btn.dataset.map === initialKey);
   });
-  showMap(initialKey);
+
+  let desiredKey = initialKey;
+  let hasLoadedMap = false;
+  let mapObserver = null;
+
+  const loadDesiredMap = () => {
+    if (hasLoadedMap) return;
+    hasLoadedMap = true;
+    mapObserver?.disconnect();
+    showMap(desiredKey);
+  };
+
+  // Lazy-load the map when user reaches the contacts section (or on old browsers: immediately).
+  if ("IntersectionObserver" in window) {
+    mapObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          loadDesiredMap();
+        }
+      },
+      { rootMargin: "250px 0px", threshold: 0.01 }
+    );
+    mapObserver.observe(mapContainer);
+  } else {
+    loadDesiredMap();
+  }
 
   buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -456,7 +495,13 @@ function initMap() {
       buttons.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
 
-      showMap(key);
+      desiredKey = key;
+      if (!hasLoadedMap) {
+        loadDesiredMap();
+        return;
+      }
+
+      showMap(desiredKey);
     });
   });
 }
