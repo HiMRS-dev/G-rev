@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Гитарная революция — индивидуальные занятия по гитаре</title>
   <meta name="description" content="Индивидуальные занятия по гитаре в Южно-Сахалинске: обучение с нуля и для продолжающих. Пробное занятие бесплатно. Запись онлайн.">
 
-  <link rel="icon" type="image/png" href="images/logo_cropped.png" />
-  <link rel="stylesheet" href="style.css?v=20260206-2" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="icon" type="image/png" href="images/logo_cropped.png">
+  <link rel="stylesheet" href="style.css?v=20260207-3">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 
   <script type="application/ld+json">
     {
@@ -47,7 +47,7 @@
     }
   </script>
 
-  <script defer src="script.js?v=20260207-2"></script>
+  <script defer src="script.js?v=20260207-3"></script>
 </head>
 <body>
 <!-- привет сервер! -->
@@ -60,7 +60,7 @@
         </div>
 
         <nav class="nav">
-            <button class="close-menu" aria-label="Закрыть меню">
+            <button type="button" class="close-menu" aria-label="Закрыть меню">
                 <span></span>
                 <span></span>
             </button>
@@ -71,13 +71,13 @@
             <a href="#contacts">Контакты</a>
         </nav>
 
-        <button class="burger" aria-label="Открыть меню" aria-expanded="false">
+        <button type="button" class="burger" aria-label="Открыть меню" aria-expanded="false">
             <span></span>
             <span></span>
             <span></span>
         </button>
 
-        <button class="btn" id="openForm">Записаться</button>
+        <button type="button" class="btn" id="openForm">Записаться</button>
 
     </div>
 </header>
@@ -89,8 +89,8 @@
         <h1>Индивидуальные занятия по гитаре в Южно-Сахалинске</h1>
         <p>Освой инструмент с нуля или прокачай технику</p>
         <div class="hero-buttons">
-            <button class="btn" id="openForm2">Записаться</button>
-            <a href="https://t.me/Guitar_Rev_bot" target="_blank" class="btn-outline">Telegram</a>
+            <button type="button" class="btn" id="openForm2">Записаться</button>
+            <a href="https://t.me/Guitar_Rev_bot" target="_blank" rel="noopener noreferrer" class="btn-outline">Telegram</a>
         </div>
     </div>
 </section>
@@ -121,7 +121,7 @@
                     <div class="swiper-slide"><img src="images/edited (4).jpg" alt="Студия гитары в Южно-Сахалинске — фото 4" loading="lazy" width="2048" height="1365"></div>
                     <div class="swiper-slide"><img src="images/edited (5).jpg" alt="Студия гитары в Южно-Сахалинске — фото 5" loading="lazy" width="2048" height="1365"></div>
                     <div class="swiper-slide"><img src="images/edited (6).jpg" alt="Студия гитары в Южно-Сахалинске — фото 6" loading="lazy" width="1520" height="1365"></div>
-                    <div class="swiper-slide"><img src="images/edited (7).jpg" alt="Студия гитары в Южно-Сахалинске — фото 7" loading="lazy" width="2048" height="1365"></div>          
+                    <div class="swiper-slide"><img src="images/edited (7).jpg" alt="Студия гитары в Южно-Сахалинске — фото 7" loading="lazy" width="2048" height="1365"></div>
                 </div>
 
                 <!-- 🔥 СТРЕЛКИ ГАЛЕРЕИ -->
@@ -168,8 +168,9 @@
                     <h3>От практики к теории</h3>
                     <p>Играем музыку, которую вы любите, и постепенно разбираем, как она устроена.</p>
                 </div>
-    </div>
-</section>
+            </div>
+        </div>
+    </section>
 
 <section id="reviews">
     <div class="container">
@@ -249,11 +250,11 @@
 
     <div class="contacts-actions">
       <a href="tel:+79621283418" class="contacts-link">
-        +7&nbsp;962&nbsp;128-34-18
+        +7&nbsp;962&nbsp;128&#8209;34&#8209;18
       </a>
 
       <div class="contacts-messengers">
-        <a href="https://t.me/Guitar_Rev_bot" target="_blank" class="telegram-btn" aria-label="Написать в Telegram">
+        <a href="https://t.me/Guitar_Rev_bot" target="_blank" rel="noopener noreferrer" class="telegram-btn" aria-label="Написать в Telegram">
           <span class="telegram-icon" aria-hidden="true"></span>
           Telegram
         </a>
@@ -265,10 +266,10 @@
     </p>
 
     <div class="contacts-locations">
-      <button class="location-btn active" data-map="hospital">
+      <button type="button" class="location-btn active" data-map="hospital">
         Больничная 55
       </button>
-      <button class="location-btn" data-map="khabarovsk">
+      <button type="button" class="location-btn" data-map="khabarovsk">
         Хабаровская 43
       </button>
     </div>
@@ -300,9 +301,9 @@
 
 
 <!-- ====== МОДАЛКА ФОРМЫ ====== -->
-<div class="modal" id="formModal" aria-hidden="true">
+<div class="modal" id="formModal">
     <div class="modal-content">
-        <span class="close" id="closeForm">&times;</span>
+        <button type="button" class="close" id="closeForm" aria-label="Закрыть форму">&times;</button>
         <h2>Записаться</h2>
 
         <form id="contactForm">
@@ -310,8 +311,8 @@
                    autocomplete="name" inputmode="text"
                    pattern="[A-Za-zА-Яа-яЁё -]+" title="Только буквы, пробел и дефис">
             <input type="tel" name="phone" placeholder="Телефон" aria-label="Телефон" required
-                   inputmode="numeric" autocomplete="tel"
-                   pattern="[0-9+\\-\\s()]{7,}" title="Только цифры и символы + - ( ) пробел">
+                   inputmode="tel" autocomplete="tel"
+                   pattern="[0-9+\-\s()]{7,}" title="Только цифры и символы + - ( ) пробел">
             <input type="number" name="age" placeholder="Возраст" aria-label="Возраст" min="1" required>
             <input type="text" name="company" class="hp-field" tabindex="-1" autocomplete="off"
                    aria-hidden="true" placeholder="Компания" hidden>
@@ -323,20 +324,20 @@
 
 
 <!-- ====== УВЕДОМЛЕНИЕ ====== -->
-<div class="modal notice-modal" id="noticeModal" aria-hidden="true">
+<div class="modal notice-modal" id="noticeModal">
     <div class="notice-content" role="alertdialog" aria-live="assertive">
-        <button class="notice-close" id="closeNotice" aria-label="Закрыть уведомление">&times;</button>
+        <button type="button" class="notice-close" id="closeNotice" aria-label="Закрыть уведомление">&times;</button>
         <div class="notice-title" id="noticeTitle">Уведомление</div>
         <div class="notice-text" id="noticeText"></div>
-        <button class="btn notice-ok" id="noticeOk">Ок</button>
+        <button type="button" class="btn notice-ok" id="noticeOk">Ок</button>
     </div>
 </div>
 
 
 
 <!-- IMAGE MODAL -->
-<div class="modal image-modal" id="imageModal" aria-hidden="true">
-  <span class="close" id="closeImageModal">&times;</span>
+<div class="modal image-modal" id="imageModal">
+  <button type="button" class="close" id="closeImageModal" aria-label="Закрыть галерею">&times;</button>
   <div class="swiper imageSwiper">
     <div class="swiper-wrapper">
       <!-- slides will be added dynamically -->

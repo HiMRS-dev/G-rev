@@ -12,9 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
   initMenu();
   initNotice();
   initFormModal();
+  initContactForm();
   initGallery();
   initSwipers();
-  initLazyLoading();
   initMap();
   initScrollAnimations();
   initKeyboardNavigation();
@@ -34,7 +34,6 @@ function initNotice() {
 
   const closeNotice = () => {
     noticeModal.classList.remove("show");
-    noticeModal.setAttribute("aria-hidden", "true");
   };
 
   noticeOk?.addEventListener("click", closeNotice);
@@ -62,7 +61,6 @@ function showNotice(message, type = "info", title = "Уведомление") {
   if (type === "success") noticeContent.classList.add("success");
   if (type === "error") noticeContent.classList.add("error");
   noticeModal.classList.add("show");
-  noticeModal.setAttribute("aria-hidden", "false");
 }
 
 /**
@@ -151,20 +149,8 @@ function initFormModal() {
 
   if (!modal) return;
 
-  // Создаем элемент для aria-live сообщений
-  const statusMessage = document.createElement('div');
-  statusMessage.setAttribute('aria-live', 'polite');
-  statusMessage.setAttribute('aria-atomic', 'true');
-  statusMessage.style.position = 'absolute';
-  statusMessage.style.left = '-10000px';
-  statusMessage.style.width = '1px';
-  statusMessage.style.height = '1px';
-  statusMessage.style.overflow = 'hidden';
-  document.body.appendChild(statusMessage);
-
   const openModal = () => {
     modal.classList.add("show");
-    modal.setAttribute("aria-hidden", "false");
     if (formStartedInput) {
       formStartedInput.value = String(Date.now());
     }
@@ -172,7 +158,6 @@ function initFormModal() {
 
   const closeModal = () => {
     modal.classList.remove("show");
-    modal.setAttribute("aria-hidden", "true");
   };
 
   openButtons.forEach(btn => btn.addEventListener("click", openModal));
@@ -203,88 +188,13 @@ function initFormModal() {
 }
 
 /**
- * Инициализация lazy loading для изображений
+ * Инициализация отправки формы (заявка)
  */
-function initLazyLoading() {
-  const images = document.querySelectorAll('img[data-src]');
-  if (!images.length) return;
+function initContactForm() {
+  const formEl = document.getElementById("contactForm");
+  if (!formEl) return;
 
-  const imageObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const img = entry.target;
-        img.src = img.dataset.src;
-        img.classList.remove('lazy');
-        observer.unobserve(img);
-      }
-    });
-  });
-
-  images.forEach(img => imageObserver.observe(img));
-}
-
-/**
- * Инициализация галереи и модального окна изображений
- */
-function initGallery() {
-  const galleryImages = document.querySelectorAll(".mySwiper img");
-  const modal = document.getElementById("imageModal");
-  const closeBtn = document.getElementById("closeImageModal");
-  const wrapper = modal?.querySelector(".swiper-wrapper");
-
-  if (!galleryImages.length || !modal || !wrapper) return;
-
-  let imageSwiper;
-
-  const openModal = (images, index) => {
-    wrapper.innerHTML = "";
-
-    images.forEach(img => {
-      const slide = document.createElement("div");
-      slide.className = "swiper-slide image-slide";
-
-      const image = document.createElement("img");
-      image.src = img.src;
-      image.alt = img.alt || "Изображение";
-
-      slide.appendChild(image);
-      wrapper.appendChild(slide);
-    });
-
-    modal.classList.add("show");
-    modal.setAttribute("aria-hidden", "false");
-
-    imageModalSwiper = new Swiper(".imageSwiper", {
-      initialSlide: index,
-      navigation: {
-        nextEl: ".imageSwiper .swiper-button-next",
-        prevEl: ".imageSwiper .swiper-button-prev",
-      },
-    });
-  };
-
-  const closeModal = () => {
-    modal.classList.remove("show");
-    modal.setAttribute("aria-hidden", "true");
-    imageModalSwiper?.destroy();
-  };
-
-  galleryImages.forEach((img, index) => {
-    img.addEventListener("click", () => openModal(galleryImages, index));
-  });
-
-  closeBtn?.addEventListener("click", closeModal);
-
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) closeModal();
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeModal();
-  });
-
-  // ===== FORM SUBMIT =====
-  document.getElementById("contactForm").addEventListener("submit", async function (e) {
+  formEl.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const form = e.target;
@@ -329,7 +239,7 @@ function initGallery() {
     }
 
     if (!cleanName) {
-      showNotice("Форма заполнена неверно. Пожалуйста, исправьте ошибки.", "error", "Ошибка");
+      showNotice("Пожалуйста, укажите имя.", "error", "Ошибка");
       return;
     }
 
@@ -337,11 +247,10 @@ function initGallery() {
       return;
     }
 
-    const ageValue = form.age.value;
     const data = {
       name: cleanName,
       phone: cleanPhone,
-      age: ageValue
+      age: form.age.value
     };
 
     try {
@@ -358,30 +267,84 @@ function initGallery() {
         throw new Error("Request failed");
       }
 
-      // ✅ УСПЕХ
       showNotice(
         "Спасибо! Все заявки обрабатываются с 10:00 до 19:00 по Сахалинскому времени. Мы обязательно с вами свяжемся.",
         "success",
         "Заявка принята"
       );
+
       try {
         localStorage.setItem("contactFormLastSubmit", String(Date.now()));
       } catch (_) {
         // ignore storage errors
       }
+
       form.reset();
 
-      // ✅ Закрываем модалку через существующую кнопку
       const closeBtn = document.querySelector("#formModal .close");
-      if (closeBtn) {
-        closeBtn.click();
-      }
-
+      closeBtn?.click();
     } catch (error) {
-      showNotice("Форма заполнена неверно. Пожалуйста, исправьте ошибки.", "error", "Ошибка");
+      showNotice("Не удалось отправить заявку. Попробуйте позже.", "error", "Ошибка");
     } finally {
       if (submitBtn) submitBtn.disabled = false;
     }
+  });
+}
+
+/**
+ * Инициализация галереи и модального окна изображений
+ */
+function initGallery() {
+  const galleryImages = document.querySelectorAll(".mySwiper img");
+  const modal = document.getElementById("imageModal");
+  const closeBtn = document.getElementById("closeImageModal");
+  const wrapper = modal?.querySelector(".swiper-wrapper");
+
+  if (!galleryImages.length || !modal || !wrapper) return;
+
+  const openModal = (images, index) => {
+    wrapper.innerHTML = "";
+
+    images.forEach(img => {
+      const slide = document.createElement("div");
+      slide.className = "swiper-slide image-slide";
+
+      const image = document.createElement("img");
+      image.src = img.src;
+      image.alt = img.alt || "Изображение";
+
+      slide.appendChild(image);
+      wrapper.appendChild(slide);
+    });
+
+    modal.classList.add("show");
+
+    imageModalSwiper = new Swiper(".imageSwiper", {
+      initialSlide: index,
+      navigation: {
+        nextEl: ".imageSwiper .swiper-button-next",
+        prevEl: ".imageSwiper .swiper-button-prev",
+      },
+    });
+  };
+
+  const closeModal = () => {
+    modal.classList.remove("show");
+    imageModalSwiper?.destroy();
+  };
+
+  galleryImages.forEach((img, index) => {
+    img.addEventListener("click", () => openModal(galleryImages, index));
+  });
+
+  closeBtn?.addEventListener("click", closeModal);
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
   });
 }
 
