@@ -445,25 +445,45 @@ function initMap() {
       "https://yandex.ru/map-widget/v1/?um=constructor%3A373534893120773fa2c4839d3ad97d4540f7d12c7d7a4949f3a931f60b7dfe0b&source=constructor&lang=ru_RU&scroll=true",
   };
 
-  function loadMap(key) {
-    // Полностью удаляем предыдущую карту
-    mapContainer.innerHTML = "";
+  const mapTitles = {
+    hospital: "Карта студии на Больничной, 55",
+    khabarovsk: "Карта студии на Хабаровской, 43",
+  };
 
+  const mapFrames = {};
+
+  Object.entries(maps).forEach(([key, src]) => {
     const iframe = document.createElement("iframe");
-    iframe.src = maps[key];
+    iframe.src = src;
     iframe.width = "100%";
     iframe.height = "100%";
     iframe.allowFullscreen = true;
     iframe.loading = "lazy";
     iframe.referrerPolicy = "no-referrer-when-downgrade";
-    iframe.title = key === "hospital" ? "Карта студии на Больничной, 55" : "Карта студии на Хабаровской, 43";
+    iframe.title = mapTitles[key];
     iframe.style.border = "0";
+    iframe.style.display = "none";
 
+    mapFrames[key] = iframe;
     mapContainer.appendChild(iframe);
+  });
+
+  function showMap(key) {
+    Object.entries(mapFrames).forEach(([mapKey, frame]) => {
+      frame.style.display = mapKey === key ? "block" : "none";
+    });
   }
 
-  // Карта по умолчанию
-  loadMap("hospital");
+  const initialActiveBtn =
+    Array.from(buttons).find((btn) => btn.classList.contains("active")) || buttons[0];
+  const initialKey = maps[initialActiveBtn?.dataset.map]
+    ? initialActiveBtn.dataset.map
+    : "hospital";
+
+  buttons.forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.map === initialKey);
+  });
+  showMap(initialKey);
 
   buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -473,7 +493,7 @@ function initMap() {
       buttons.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
 
-      loadMap(key);
+      showMap(key);
     });
   });
 }
