@@ -34,11 +34,18 @@
     box-sizing: border-box;
 }
 
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
 body {
     margin: 0;
     background: #0a0a0a;
     color: #fff;
     font-family: Arial, sans-serif;
+    min-height: 100vh;
+    min-height: 100svh;
+    min-height: 100dvh;
 }
 
 
@@ -801,6 +808,10 @@ h3 {
     opacity: 0.6;
 }
 
+.is-ios .footer {
+    padding-bottom: calc(60px + env(safe-area-inset-bottom));
+}
+
 
 /* =====================================================
    13. MODAL (форма)
@@ -814,6 +825,13 @@ h3 {
     justify-content: center;
     align-items: center;
     z-index: 1000;
+}
+
+.is-ios .modal {
+    padding:
+        max(12px, env(safe-area-inset-top))
+        12px
+        max(12px, env(safe-area-inset-bottom));
 }
 
 .modal.show {
@@ -1023,6 +1041,62 @@ h3 {
 }
 
 /* =====================================================
+   IOS DEBUG OVERLAY
+===================================================== */
+
+#ios-debug-overlay {
+    position: fixed;
+    left: 8px;
+    right: 8px;
+    bottom: calc(8px + env(safe-area-inset-bottom));
+    z-index: 2001;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(7, 10, 14, 0.9);
+    color: #e8f3ff;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 11px;
+    line-height: 1.35;
+    backdrop-filter: blur(4px);
+}
+
+.ios-debug-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.ios-debug-head strong {
+    font-size: 12px;
+}
+
+#ios-debug-close {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: inherit;
+    border-radius: 6px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.ios-debug-metrics,
+.ios-debug-errors {
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.ios-debug-errors {
+    margin-top: 8px;
+    color: #ffd3d3;
+}
+
+/* =====================================================
     14. UI COMPONENTS
 ===================================================== */
 
@@ -1113,6 +1187,8 @@ h3 {
     position: fixed;
     inset: 0;            /* ← строго размер экрана */
     height: 100dvh;      /* ← важно для мобильных */
+    padding-top: max(24px, env(safe-area-inset-top));
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
     background: #0a0a0a;
 
     display: flex;
