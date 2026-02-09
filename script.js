@@ -28,9 +28,15 @@ function detectIOSDevice() {
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 }
 
+function detectTelegramWebView() {
+  return /Telegram/i.test(navigator.userAgent);
+}
+
 function initIOSSupport() {
   const isIOS = detectIOSDevice();
+  const isTelegramWebView = detectTelegramWebView();
   document.documentElement.classList.toggle("is-ios", isIOS);
+  document.documentElement.classList.toggle("is-telegram-webview", isTelegramWebView);
 }
 
 function initNotice() {
