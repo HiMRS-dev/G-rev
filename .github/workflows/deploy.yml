@@ -13,13 +13,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Update sitemap lastmod
-        run: |
-          set -euo pipefail
-          LASTMOD="$(date -u +%Y-%m-%d)"
-          sed -i -E "s#(<lastmod>)[0-9]{4}-[0-9]{2}-[0-9]{2}(</lastmod>)#\\1${LASTMOD}\\2#g" sitemap.xml
-          grep -n "<lastmod>" sitemap.xml
-
       - name: Setup SSH
         run: |
           set -euo pipefail
@@ -37,3 +30,38 @@ jobs:
             --exclude '.github' \
             -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes" \
             ./ root@80.93.63.195:/var/www/html/
+
+      - name: Validate SEO on production
+        run: |
+          set -euo pipefail
+          BASE_URL="https://guitar-revolution.ru"
+
+          echo "Check home status..."
+          HOME_STATUS="$(curl -s -o /dev/null -w "%{http_code}" "${BASE_URL}/")"
+          test "${HOME_STATUS}" = "200"
+
+          echo "Check canonical and social tags..."
+          HTML="$(mktemp)"
+          curl -fsSL "${BASE_URL}/" > "${HTML}"
+          grep -Fq '<link rel="canonical" href="https://guitar-revolution.ru/">' "${HTML}"
+          grep -Fq '<meta property="og:image" content="https://guitar-revolution.ru/images/og-cover-1200x630.jpg">' "${HTML}"
+          grep -Fq '<meta name="twitter:image" content="https://guitar-revolution.ru/images/og-cover-1200x630.jpg">' "${HTML}"
+
+          echo "Check robots..."
+          ROBOTS="$(mktemp)"
+          curl -fsSL "${BASE_URL}/robots.txt" > "${ROBOTS}"
+          grep -Fqx 'Host: guitar-revolution.ru' "${ROBOTS}"
+          grep -Fqx 'Sitemap: https://guitar-revolution.ru/sitemap.xml' "${ROBOTS}"
+
+          echo "Check sitemap..."
+          SITEMAP="$(mktemp)"
+          curl -fsSL "${BASE_URL}/sitemap.xml" > "${SITEMAP}"
+          grep -Fq '<loc>https://guitar-revolution.ru/</loc>' "${SITEMAP}"
+          grep -Eq '<lastmod>[0-9]{4}-[0-9]{2}-[0-9]{2}</lastmod>' "${SITEMAP}"
+          grep -Fq '<image:loc>https://guitar-revolution.ru/images/og-cover-1200x630.jpg</image:loc>' "${SITEMAP}"
+
+          echo "Check duplicate URL redirects..."
+          INDEX_HEADERS="$(mktemp)"
+          curl -sI "${BASE_URL}/index.html" > "${INDEX_HEADERS}"
+          grep -Eq '^HTTP/[0-9.]+ 301' "${INDEX_HEADERS}"
+          grep -Eiq '^location: https://guitar-revolution.ru/$' "${INDEX_HEADERS}"
