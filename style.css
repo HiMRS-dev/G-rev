@@ -1110,6 +1110,19 @@ button.btn,
     transform: scale(0.96);
 }
 
+.btn#openForm,
+.btn#openForm2 {
+    background: rgba(64, 196, 219, 0.26);
+    border: 1px solid rgba(64, 196, 219, 0.62);
+    backdrop-filter: blur(2px);
+}
+
+.btn#openForm:hover,
+.btn#openForm2:hover {
+    background: rgba(77, 208, 225, 0.38);
+    border-color: rgba(77, 208, 225, 0.82);
+}
+
 .btn-outline {
     border: 2px solid #40c4db;
     padding: 10px 22px;
