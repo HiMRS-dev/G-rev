@@ -64,4 +64,4 @@ jobs:
           INDEX_HEADERS="$(mktemp)"
           curl -sI "${BASE_URL}/index.html" > "${INDEX_HEADERS}"
           grep -Eq '^HTTP/[0-9.]+ 301' "${INDEX_HEADERS}"
-          grep -Eiq '^location: https://guitar-revolution.ru/$' "${INDEX_HEADERS}"
+          grep -Eiq $'^location: https://guitar-revolution.ru/\r?$' "${INDEX_HEADERS}"
