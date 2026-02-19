@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: http://144.31.77.239/sitemap.xml
+Sitemap: https://guitar-revolution.ru/sitemap.xml

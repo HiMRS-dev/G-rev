@@ -15,14 +15,21 @@ jobs:
 
       - name: Setup SSH
         run: |
+          set -euo pipefail
           mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H 144.31.77.239 >> ~/.ssh/known_hosts
+          ssh-keyscan -H 80.93.63.195 >> ~/.ssh/known_hosts
 
       - name: Deploy
         run: |
-          ssh root@144.31.77.239 << 'EOF'
+          set -euo pipefail
+          ssh root@80.93.63.195 << 'EOF'
+            set -euo pipefail
             cd /var/www/html
-            git pull
+            git config --global --add safe.directory /var/www/html
+            git fetch origin
+            git checkout main
+            git pull --ff-only origin main
           EOF
