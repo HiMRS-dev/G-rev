@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://guitar-revolution.ru/</loc>
     <lastmod>2026-02-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://guitar-revolution.ru/images/edited-3.ea6f8d62.jpg</image:loc>
+      <image:title>Индивидуальные занятия по гитаре в Южно-Сахалинске</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://guitar-revolution.ru/images/logo_cropped.b8d528c1.png</image:loc>
+      <image:title>Гитарная революция — логотип студии</image:title>
+    </image:image>
   </url>
 </urlset>
