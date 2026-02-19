@@ -803,6 +803,22 @@ h3 {
     opacity: 0.7;
 }
 
+.footer-seo-links {
+    display: grid;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.footer-seo-links a {
+    color: #9ee6f4;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.footer-seo-links a:hover {
+    text-decoration: underline;
+}
+
 .footer-copy {
     font-size: 13px;
     opacity: 0.6;

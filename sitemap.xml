@@ -16,4 +16,34 @@
       <image:title>Гитарная революция — логотип студии</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://guitar-revolution.ru/uroki-gitary-v-yuzhno-sakhalinske.html</loc>
+    <lastmod>2026-02-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://guitar-revolution.ru/images/og-cover-1200x630.jpg</image:loc>
+      <image:title>Уроки гитары в Южно-Сахалинске</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://guitar-revolution.ru/obuchenie-igre-na-gitare-s-nulya-v-yuzhno-sakhalinske.html</loc>
+    <lastmod>2026-02-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://guitar-revolution.ru/images/og-cover-1200x630.jpg</image:loc>
+      <image:title>Обучение игре на гитаре с нуля в Южно-Сахалинске</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://guitar-revolution.ru/individualnye-zanyatiya-po-gitare-v-yuzhno-sakhalinske.html</loc>
+    <lastmod>2026-02-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://guitar-revolution.ru/images/og-cover-1200x630.jpg</image:loc>
+      <image:title>Индивидуальные занятия по гитаре в Южно-Сахалинске</image:title>
+    </image:image>
+  </url>
 </urlset>
