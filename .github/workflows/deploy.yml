@@ -13,6 +13,13 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Update sitemap lastmod
+        run: |
+          set -euo pipefail
+          LASTMOD="$(date -u +%Y-%m-%d)"
+          sed -i -E "s#(<lastmod>)[0-9]{4}-[0-9]{2}-[0-9]{2}(</lastmod>)#\\1${LASTMOD}\\2#g" sitemap.xml
+          grep -n "<lastmod>" sitemap.xml
+
       - name: Setup SSH
         run: |
           set -euo pipefail
@@ -22,14 +29,11 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H 80.93.63.195 >> ~/.ssh/known_hosts
 
-      - name: Deploy
+      - name: Deploy files
         run: |
           set -euo pipefail
-          ssh root@80.93.63.195 << 'EOF'
-            set -euo pipefail
-            cd /var/www/html
-            git config --global --add safe.directory /var/www/html
-            git fetch origin
-            git checkout main
-            git pull --ff-only origin main
-          EOF
+          rsync -az --delete \
+            --exclude '.git' \
+            --exclude '.github' \
+            -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes" \
+            ./ root@80.93.63.195:/var/www/html/
