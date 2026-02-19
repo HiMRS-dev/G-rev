@@ -804,28 +804,40 @@ h3 {
 }
 
 .footer-seo-links {
-    display: grid;
-    gap: 6px;
-    margin-top: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 8px;
     width: min(980px, 100%);
     margin-left: auto;
     margin-right: auto;
 }
 
-.footer-seo-links a {
-    color: #9ee6f4;
-    font-size: 14px;
+.footer-seo-links a,
+.footer-seo-links a:visited {
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 13px;
+    line-height: 1;
     text-decoration: none;
+    padding: 7px 11px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.03);
+    transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.footer-seo-links a:hover {
-    text-decoration: underline;
+.footer-seo-links a:hover,
+.footer-seo-links a:focus-visible {
+    color: #e9fbff;
+    border-color: rgba(64, 196, 219, 0.5);
+    background: rgba(64, 196, 219, 0.12);
+    outline: none;
 }
 
 @media (min-width: 880px) {
   .footer-seo-links {
-    grid-template-columns: repeat(2, minmax(280px, 1fr));
-    column-gap: 16px;
+    justify-content: center;
   }
 }
 
