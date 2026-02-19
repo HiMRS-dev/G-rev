@@ -46,4 +46,74 @@
       <image:title>Индивидуальные занятия по гитаре в Южно-Сахалинске</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://guitar-revolution.ru/uroki-igry-na-gitare-yuzhno-sakhalinsk.html</loc>
+    <lastmod>2026-02-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <image:image>
+      <image:loc>https://guitar-revolution.ru/images/og-cover-1200x630.jpg</image:loc>
+      <image:title>Уроки игры на гитаре Южно-Сахалинск</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://guitar-revolution.ru/obuchenie-igra-na-gitare.html</loc>
+    <lastmod>2026-02-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <image:image>
+      <image:loc>https://guitar-revolution.ru/images/og-cover-1200x630.jpg</image:loc>
+      <image:title>Обучение игра на гитаре</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://guitar-revolution.ru/uroki-elektrogitary-v-yuzhno-sakhalinske.html</loc>
+    <lastmod>2026-02-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <image:image>
+      <image:loc>https://guitar-revolution.ru/images/og-cover-1200x630.jpg</image:loc>
+      <image:title>Уроки электрогитары в Южно-Сахалинске</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://guitar-revolution.ru/uroki-akusticheskoi-gitary-v-yuzhno-sakhalinske.html</loc>
+    <lastmod>2026-02-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <image:image>
+      <image:loc>https://guitar-revolution.ru/images/og-cover-1200x630.jpg</image:loc>
+      <image:title>Уроки акустической гитары в Южно-Сахалинске</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://guitar-revolution.ru/uroki-gitary-dlya-vzroslyh-v-yuzhno-sakhalinske.html</loc>
+    <lastmod>2026-02-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <image:image>
+      <image:loc>https://guitar-revolution.ru/images/og-cover-1200x630.jpg</image:loc>
+      <image:title>Уроки гитары для взрослых в Южно-Сахалинске</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://guitar-revolution.ru/uroki-gitary-dlya-detei-v-yuzhno-sakhalinske.html</loc>
+    <lastmod>2026-02-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <image:image>
+      <image:loc>https://guitar-revolution.ru/images/og-cover-1200x630.jpg</image:loc>
+      <image:title>Уроки гитары для детей в Южно-Сахалинске</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://guitar-revolution.ru/razbor-pesen-na-gitare-v-yuzhno-sakhalinske.html</loc>
+    <lastmod>2026-02-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <image:image>
+      <image:loc>https://guitar-revolution.ru/images/og-cover-1200x630.jpg</image:loc>
+      <image:title>Разбор песен на гитаре в Южно-Сахалинске</image:title>
+    </image:image>
+  </url>
 </urlset>
