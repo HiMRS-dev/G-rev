@@ -478,12 +478,11 @@ h3 {
 }
 
 .approach-item {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease;
 }
 
 .approach-item:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 10px 30px rgba(64, 196, 219, 0.25);
+    box-shadow: 0 0 12px rgba(64, 196, 219, 0.1);
 }
 
 @media (max-width: 768px) {
@@ -508,7 +507,9 @@ h3 {
 .approach-item {
     background: #111;
     padding: 28px;
-    border-radius: 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(64, 196, 219, 0.25);
+    box-shadow: 0 0 12px rgba(64, 196, 219, 0.1);
 }
 
 .approach-item h3 {
@@ -527,14 +528,14 @@ h3 {
     }
 
     .approach-item {
-        box-shadow: 0 0 15px rgba(77, 208, 225, 0.4);
+        box-shadow: 0 0 12px rgba(64, 196, 219, 0.1);
         transition: box-shadow 0.3s ease;
     }
 
     #lessons .approach-item:hover,
     #lessons .approach-item:active {
         transform: none;
-        box-shadow: 0 0 15px rgba(77, 208, 225, 0.4);
+        box-shadow: 0 0 12px rgba(64, 196, 219, 0.1);
     }
 }
 
