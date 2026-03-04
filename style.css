@@ -96,7 +96,7 @@ h3 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: 72px;
+    min-height: 84px;
 }
 
 .nav {
@@ -168,7 +168,7 @@ h3 {
 }
 
 .header-logo img {
-    height: 60px;
+    height: 72px;
     width: auto;
     display: block;
 }
@@ -1181,6 +1181,14 @@ button.btn,
 
 @media (max-width: 768px) {
   /* Показываем кнопку-бургер */
+  .header .container {
+    min-height: 76px;
+  }
+
+  .header-logo img {
+    height: 64px;
+  }
+
   .burger {
     display: block;
     position: relative;
