@@ -160,8 +160,6 @@ function initFormModal() {
   const openButtons = document.querySelectorAll("#openForm, #openForm2");
   const closeButton = document.getElementById("closeForm");
   const form = document.getElementById("contactForm");
-  const nameInput = form?.querySelector("input[name=\"name\"]");
-  const phoneInput = form?.querySelector("input[name=\"phone\"]");
   const formStartedInput = form?.querySelector("input[name=\"form_started_at\"]");
 
   if (!modal) return;
@@ -180,18 +178,6 @@ function initFormModal() {
   openButtons.forEach(btn => btn.addEventListener("click", openModal));
   closeButton?.addEventListener("click", closeModal);
 
-  if (nameInput) {
-    nameInput.addEventListener("input", () => {
-      nameInput.value = nameInput.value.replace(/[^A-Za-zА-Яа-яЁё\s-]/g, "");
-    });
-  }
-
-  if (phoneInput) {
-    phoneInput.addEventListener("input", () => {
-      phoneInput.value = phoneInput.value.replace(/[^0-9+\-()\s]/g, "");
-    });
-  }
-
   modal.addEventListener("click", (e) => {
     if (e.target === modal) closeModal();
   });
@@ -208,103 +194,167 @@ function initFormModal() {
  * Инициализация отправки формы (заявка)
  */
 function initContactForm() {
-  const formEl = document.getElementById("contactForm");
-  if (!formEl) return;
+  const consentErrorMessage = "Необходимо согласие на обработку персональных данных";
+  const contactForms = Array.from(document.querySelectorAll("form")).filter((form) => {
+    const hasContactFields = Boolean(
+      form.querySelector(
+        "input[name=\"name\"], input[name=\"phone\"], input[name=\"email\"], input[type=\"tel\"], input[type=\"email\"]"
+      )
+    );
+    return hasContactFields && Boolean(form.querySelector("button[type=\"submit\"], input[type=\"submit\"]"));
+  });
 
-  formEl.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  if (!contactForms.length) return;
 
-    const form = e.target;
-    const submitBtn = form.querySelector("button[type=\"submit\"]");
-    const honeypot = form.querySelector("input[name=\"company\"]");
-    const formStarted = form.querySelector("input[name=\"form_started_at\"]");
-    const rawName = String(form.name.value || "");
-    const cleanName = rawName.replace(/[^A-Za-zА-Яа-яЁё\s-]/g, "").trim();
-    const rawPhone = String(form.phone.value || "");
-    const cleanPhone = rawPhone.replace(/[^0-9+\-()\s]/g, "").trim();
+  contactForms.forEach((formEl) => {
+    const nameInput = formEl.querySelector("input[name=\"name\"]");
+    const phoneInput = formEl.querySelector("input[name=\"phone\"]");
+    const consentCheckbox = formEl.querySelector("input[name=\"consent\"]");
+    const formStartedInput = formEl.querySelector("input[name=\"form_started_at\"]");
 
-    // Anti-spam: honeypot must stay empty
-    if (honeypot && honeypot.value.trim() !== "") {
-      return;
+    if (nameInput) {
+      nameInput.addEventListener("input", () => {
+        nameInput.value = nameInput.value.replace(/[^A-Za-zА-Яа-яЁё\s-]/g, "");
+      });
     }
 
-    // Anti-spam: minimum time on form (5s)
-    if (formStarted && formStarted.value) {
-      const startedAt = Number(formStarted.value);
-      if (Number.isFinite(startedAt) && Date.now() - startedAt < 5000) {
-        showNotice("Пожалуйста, заполните форму чуть внимательнее.", "error", "Ошибка");
-        return;
+    if (phoneInput) {
+      phoneInput.addEventListener("input", () => {
+        phoneInput.value = phoneInput.value.replace(/[^0-9+\-()\s]/g, "");
+      });
+    }
+
+    const markFormStarted = () => {
+      if (formStartedInput && !formStartedInput.value) {
+        formStartedInput.value = String(Date.now());
       }
-    }
-
-    // Anti-spam: rate limit (1 request per 30s)
-    try {
-      const lastSubmit = Number(localStorage.getItem("contactFormLastSubmit"));
-      if (Number.isFinite(lastSubmit) && Date.now() - lastSubmit < 30000) {
-        showNotice("Слишком часто. Попробуйте позже.", "error", "Ошибка");
-        return;
-      }
-    } catch (_) {
-      // ignore storage errors
-    }
-
-    if (rawName !== cleanName) {
-      form.name.value = cleanName;
-    }
-    if (rawPhone !== cleanPhone) {
-      form.phone.value = cleanPhone;
-    }
-
-    if (!cleanName) {
-      showNotice("Пожалуйста, укажите имя.", "error", "Ошибка");
-      return;
-    }
-
-    if (!form.reportValidity()) {
-      return;
-    }
-
-    const data = {
-      name: cleanName,
-      phone: cleanPhone,
-      age: form.age.value
     };
 
-    try {
-      if (submitBtn) submitBtn.disabled = true;
-      const response = await fetch("/api/lead", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
+    formEl.addEventListener("focusin", markFormStarted);
+    formEl.addEventListener("input", markFormStarted);
 
-      if (!response.ok) {
-        throw new Error("Request failed");
+    if (consentCheckbox) {
+      const clearConsentError = () => consentCheckbox.setCustomValidity("");
+      consentCheckbox.addEventListener("invalid", () => {
+        consentCheckbox.setCustomValidity(consentErrorMessage);
+      });
+      consentCheckbox.addEventListener("change", clearConsentError);
+      consentCheckbox.addEventListener("input", clearConsentError);
+    }
+
+    formEl.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const form = e.target;
+      const submitBtn = form.querySelector("button[type=\"submit\"]");
+      const honeypot = form.querySelector("input[name=\"company\"]");
+      const formStarted = form.querySelector("input[name=\"form_started_at\"]");
+      const nameField = form.querySelector("input[name=\"name\"]");
+      const phoneField = form.querySelector("input[name=\"phone\"]");
+      const emailField = form.querySelector("input[name=\"email\"]");
+      const ageField = form.querySelector("input[name=\"age\"]");
+      const consentField = form.querySelector("input[name=\"consent\"]");
+      const rawName = String(nameField?.value || "");
+      const cleanName = rawName.replace(/[^A-Za-zА-Яа-яЁё\s-]/g, "").trim();
+      const rawPhone = String(phoneField?.value || "");
+      const cleanPhone = rawPhone.replace(/[^0-9+\-()\s]/g, "").trim();
+
+      // Anti-spam: honeypot must stay empty
+      if (honeypot && honeypot.value.trim() !== "") {
+        return;
       }
 
-      showNotice(
-        "Спасибо! Все заявки обрабатываются с 10:00 до 19:00 по Сахалинскому времени. Мы обязательно с вами свяжемся.",
-        "success",
-        "Заявка принята"
-      );
+      // Anti-spam: minimum time on form (5s)
+      if (formStarted && formStarted.value) {
+        const startedAt = Number(formStarted.value);
+        if (Number.isFinite(startedAt) && Date.now() - startedAt < 5000) {
+          showNotice("Пожалуйста, заполните форму чуть внимательнее.", "error", "Ошибка");
+          return;
+        }
+      }
 
+      // Anti-spam: rate limit (1 request per 30s)
       try {
-        localStorage.setItem("contactFormLastSubmit", String(Date.now()));
+        const lastSubmit = Number(localStorage.getItem("contactFormLastSubmit"));
+        if (Number.isFinite(lastSubmit) && Date.now() - lastSubmit < 30000) {
+          showNotice("Слишком часто. Попробуйте позже.", "error", "Ошибка");
+          return;
+        }
       } catch (_) {
         // ignore storage errors
       }
 
-      form.reset();
+      if (nameField && rawName !== cleanName) {
+        nameField.value = cleanName;
+      }
+      if (phoneField && rawPhone !== cleanPhone) {
+        phoneField.value = cleanPhone;
+      }
 
-      const closeBtn = document.querySelector("#formModal .close");
-      closeBtn?.click();
-    } catch (error) {
-      showNotice("Не удалось отправить заявку. Попробуйте позже.", "error", "Ошибка");
-    } finally {
-      if (submitBtn) submitBtn.disabled = false;
-    }
+      if (nameField && !cleanName) {
+        showNotice("Пожалуйста, укажите имя.", "error", "Ошибка");
+        return;
+      }
+
+      if (consentField && !consentField.checked) {
+        consentField.setCustomValidity(consentErrorMessage);
+      }
+
+      if (!form.reportValidity()) {
+        return;
+      }
+
+      if (consentField) {
+        consentField.setCustomValidity("");
+      }
+
+      const data = {
+        name: cleanName,
+        phone: cleanPhone,
+        age: ageField ? String(ageField.value || "").trim() : "",
+        consent: Boolean(consentField?.checked)
+      };
+
+      if (emailField) {
+        data.email = String(emailField.value || "").trim();
+      }
+
+      try {
+        if (submitBtn) submitBtn.disabled = true;
+        const response = await fetch("/api/lead", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+          throw new Error("Request failed");
+        }
+
+        showNotice(
+          "Спасибо! Все заявки обрабатываются с 10:00 до 19:00 по Сахалинскому времени. Мы обязательно с вами свяжемся.",
+          "success",
+          "Заявка принята"
+        );
+
+        try {
+          localStorage.setItem("contactFormLastSubmit", String(Date.now()));
+        } catch (_) {
+          // ignore storage errors
+        }
+
+        form.reset();
+
+        const closeBtn = document.querySelector("#formModal .close");
+        closeBtn?.click();
+      } catch (error) {
+        showNotice("Не удалось отправить заявку. Попробуйте позже.", "error", "Ошибка");
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    });
   });
 }
 
