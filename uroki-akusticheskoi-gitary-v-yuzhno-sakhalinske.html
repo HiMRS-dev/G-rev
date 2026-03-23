@@ -61,6 +61,12 @@
       text-decoration: none;
       font-weight: 600;
     }
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
     h1 {
       margin: 0 0 12px;
       font-size: clamp(28px, 4vw, 44px);
@@ -103,6 +109,9 @@
       background: transparent;
       border: 1px solid var(--accent);
       color: var(--accent);
+    }
+    .btn.max {
+      background: #317AB9;
     }
     .links a {
       color: var(--accent);
@@ -161,7 +170,10 @@
   <main class="wrap">
     <div class="top">
       <a href="/">← На главную</a>
-      <a href="https://t.me/Guitar_Rev_bot" target="_blank" rel="noopener noreferrer">Записаться в Telegram</a>
+      <div class="top-actions">
+        <a href="https://t.me/Guitar_Rev_bot" target="_blank" rel="noopener noreferrer">Записаться в Telegram</a>
+        <a href="https://web.max.ru/127897998" target="_blank" rel="noopener noreferrer">Написать в MAX</a>
+      </div>
     </div>
 
     <h1>Уроки акустической гитары в Южно-Сахалинске</h1>
@@ -181,6 +193,7 @@
       <p>Тем, кто хочет играть для себя, для друзей, дома или на небольших выступлениях в комфортном формате.</p>
       <div class="cta">
         <a class="btn" href="https://t.me/Guitar_Rev_bot" target="_blank" rel="noopener noreferrer">Оставить заявку</a>
+        <a class="btn max" href="https://web.max.ru/127897998" target="_blank" rel="noopener noreferrer">Написать в MAX</a>
         <a class="btn secondary" href="tel:+79621283418">+7 962 128-34-18</a>
       </div>
     </section>
