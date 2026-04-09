@@ -289,49 +289,51 @@
 
     <section id="contacts">
       <div class="container contacts-content">
-        <h2 class="fade-up">Контакты</h2>
+        <div class="contacts-main">
+          <h2 class="fade-up">Контакты</h2>
 
-    <p class="contacts-text">
-      Если у вас есть вопросы или вы хотите записаться на занятие —
-      просто напишите или позвоните.
-    </p>
+          <p class="contacts-text">
+            Если у вас есть вопросы или вы хотите записаться на занятие —
+            просто напишите или позвоните.
+          </p>
 
-    <div class="contacts-actions">
-      <a href="tel:+79621283418" class="contacts-link">
-        +7&nbsp;962&nbsp;128&#8209;34&#8209;18
-      </a>
+          <div class="contacts-actions">
+            <a href="tel:+79621283418" class="contacts-link">
+              +7&nbsp;962&nbsp;128&#8209;34&#8209;18
+            </a>
 
-      <div class="contacts-messengers">
-        <a href="https://t.me/Guitar_Rev_bot" target="_blank" rel="noopener noreferrer" class="telegram-btn" aria-label="Написать в Telegram">
-          <span class="telegram-icon" aria-hidden="true"></span>
-          Telegram
-        </a>
-        <a href="https://max.ru/u/f9LHodD0cOLmPGjjxc1FhT8HlXsi_rj2dapMNZtsgI51Ue4u4a7-1VDFrOU" target="_blank" rel="noopener noreferrer" class="max-btn" aria-label="Написать в MAX">
-          <span class="max-icon" aria-hidden="true">M</span>
-          MAX
-        </a>
+            <div class="contacts-messengers">
+              <a href="https://t.me/Guitar_Rev_bot" target="_blank" rel="noopener noreferrer" class="telegram-btn" aria-label="Написать в Telegram">
+                <span class="telegram-icon" aria-hidden="true"></span>
+                Telegram
+              </a>
+              <a href="https://max.ru/u/f9LHodD0cOLmPGjjxc1FhT8HlXsi_rj2dapMNZtsgI51Ue4u4a7-1VDFrOU" target="_blank" rel="noopener noreferrer" class="max-btn" aria-label="Написать в MAX">
+                <span class="max-icon" aria-hidden="true">M</span>
+                MAX
+              </a>
+            </div>
+          </div>
+
+          <p class="contacts-subtext">
+            У нас две студии — выберите удобную.
+          </p>
+
+          <div class="contacts-locations">
+            <button type="button" class="location-btn active" data-map="hospital">
+              Больничная 55
+            </button>
+            <button type="button" class="location-btn" data-map="khabarovsk">
+              Хабаровская 43
+            </button>
+          </div>
+        </div>
+
+        <!-- 🔥 ЕДИНСТВЕННЫЙ КОНТЕЙНЕР КАРТЫ -->
+        <div class="contacts-map">
+          <div id="map-container"></div>
+        </div>
       </div>
-    </div>
-
-    <p class="contacts-subtext">
-      У нас две студии — выберите удобную.
-    </p>
-
-    <div class="contacts-locations">
-      <button type="button" class="location-btn active" data-map="hospital">
-        Больничная 55
-      </button>
-      <button type="button" class="location-btn" data-map="khabarovsk">
-        Хабаровская 43
-      </button>
-    </div>
-
-    <!-- 🔥 ЕДИНСТВЕННЫЙ КОНТЕЙНЕР КАРТЫ -->
-    <div class="contacts-map">
-      <div id="map-container"></div>
-    </div>
-  </div>
-</section>
+    </section>
 
 
 
