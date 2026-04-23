@@ -42,6 +42,15 @@ html {
     --line: rgba(64, 196, 219, 0.18);
     --shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
     --radius-lg: 20px;
+    --btn-primary: #ff7a24;
+    --btn-primary-hover: #ff934d;
+    --btn-primary-glow: rgba(255, 122, 36, 0.45);
+    --btn-text: #fff8f1;
+    --btn-outline: #ff9d63;
+    --btn-outline-hover-border: rgba(255, 176, 132, 0.94);
+    --btn-outline-hover-bg: rgba(255, 122, 36, 0.14);
+    --btn-glass-tint: rgba(255, 138, 72, 0.3);
+    --btn-glass-tint-hover: rgba(255, 158, 96, 0.38);
     --bg-underlay-size: min(100vw, 1360px) auto;
     --edge-fade: linear-gradient(
         90deg,
@@ -1745,9 +1754,9 @@ h3 {
 
 .btn {
     padding: 12px 28px;
-    background: #40c4db;
-    color: #fff;
-    -webkit-text-fill-color: #fff;
+    background: var(--btn-primary);
+    color: var(--btn-text);
+    -webkit-text-fill-color: var(--btn-text);
     -webkit-appearance: none;
     appearance: none;
     border: none;
@@ -1763,8 +1772,8 @@ button.btn,
 }
 
 .btn:hover {
-    background: #4dd0e1;
-    box-shadow: 0 0 18px rgba(64, 196, 219, 0.45);
+    background: var(--btn-primary-hover);
+    box-shadow: 0 0 18px var(--btn-primary-glow);
 }
 
 .btn:active {
@@ -1774,12 +1783,12 @@ button.btn,
 .btn#openForm,
 .btn#openForm2 {
     background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06) 38%, rgba(64, 196, 219, 0.24)),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06) 38%, var(--btn-glass-tint)),
         rgba(10, 14, 18, 0.34);
-    border: 1px solid rgba(121, 220, 234, 0.42);
+    border: 1px solid rgba(255, 157, 99, 0.58);
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.34),
-        inset 0 -1px 0 rgba(64, 196, 219, 0.24),
+        inset 0 -1px 0 rgba(255, 138, 72, 0.3),
         0 10px 22px rgba(0, 0, 0, 0.24);
     backdrop-filter: blur(8px) saturate(125%);
     -webkit-backdrop-filter: blur(8px) saturate(125%);
@@ -1788,20 +1797,20 @@ button.btn,
 .btn#openForm:hover,
 .btn#openForm2:hover {
     background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08) 36%, rgba(77, 208, 225, 0.3)),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08) 36%, var(--btn-glass-tint-hover)),
         rgba(10, 14, 18, 0.38);
-    border-color: rgba(121, 220, 234, 0.74);
+    border-color: var(--btn-outline-hover-border);
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.42),
-        inset 0 -1px 0 rgba(77, 208, 225, 0.36),
-        0 0 18px rgba(64, 196, 219, 0.3),
+        inset 0 -1px 0 rgba(255, 158, 96, 0.42),
+        0 0 18px rgba(255, 122, 36, 0.34),
         0 12px 24px rgba(0, 0, 0, 0.26);
 }
 
 .btn-outline {
-    border: 2px solid #40c4db;
+    border: 2px solid var(--btn-outline);
     padding: 10px 22px;
-    color: #40c4db;
+    color: var(--btn-outline);
     text-decoration: none;
 }
 
@@ -1813,9 +1822,18 @@ button.btn,
 }
 
 .btn-outline.max-outline {
-    border-color: #40c4db;
+    border-color: var(--btn-outline);
     background: transparent;
-    color: #40c4db;
+    color: var(--btn-outline);
+}
+
+.btn-outline:hover,
+.btn-outline:focus-visible {
+    color: #ffe8d8;
+    border-color: var(--btn-outline-hover-border);
+    background: var(--btn-outline-hover-bg);
+    box-shadow: 0 0 16px rgba(255, 122, 36, 0.24);
+    outline: none;
 }
 
 
