@@ -42,15 +42,15 @@ html {
     --line: rgba(64, 196, 219, 0.18);
     --shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
     --radius-lg: 20px;
-    --btn-primary: #ff7a24;
-    --btn-primary-hover: #ff934d;
-    --btn-primary-glow: rgba(255, 122, 36, 0.45);
-    --btn-text: #fff8f1;
-    --btn-outline: #ff9d63;
-    --btn-outline-hover-border: rgba(255, 176, 132, 0.94);
-    --btn-outline-hover-bg: rgba(255, 122, 36, 0.14);
-    --btn-glass-tint: rgba(255, 138, 72, 0.3);
-    --btn-glass-tint-hover: rgba(255, 158, 96, 0.38);
+    --btn-primary: #40c4db;
+    --btn-primary-hover: #4dd0e1;
+    --btn-primary-glow: rgba(64, 196, 219, 0.45);
+    --btn-text: #f3fcff;
+    --btn-outline: #79dcea;
+    --btn-outline-hover-border: rgba(121, 220, 234, 0.92);
+    --btn-outline-hover-bg: rgba(64, 196, 219, 0.14);
+    --btn-neon-core: rgba(64, 196, 219, 0.42);
+    --btn-neon-outer: rgba(64, 196, 219, 0.26);
     --bg-underlay-size: min(100vw, 1360px) auto;
     --edge-fade: linear-gradient(
         90deg,
@@ -1762,6 +1762,7 @@ h3 {
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    box-shadow: 0 0 0 rgba(64, 196, 219, 0);
     transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
 }
 
@@ -1773,7 +1774,7 @@ button.btn,
 
 .btn:hover {
     background: var(--btn-primary-hover);
-    box-shadow: 0 0 18px var(--btn-primary-glow);
+    box-shadow: 0 0 18px var(--btn-primary-glow), 0 0 28px rgba(64, 196, 219, 0.22);
 }
 
 .btn:active {
@@ -1782,29 +1783,26 @@ button.btn,
 
 .btn#openForm,
 .btn#openForm2 {
-    background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06) 38%, var(--btn-glass-tint)),
-        rgba(10, 14, 18, 0.34);
-    border: 1px solid rgba(255, 157, 99, 0.58);
+    background: linear-gradient(180deg, rgba(20, 36, 43, 0.96), rgba(12, 22, 28, 0.96));
+    border: 1px solid rgba(121, 220, 234, 0.76);
     box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.34),
-        inset 0 -1px 0 rgba(255, 138, 72, 0.3),
-        0 10px 22px rgba(0, 0, 0, 0.24);
-    backdrop-filter: blur(8px) saturate(125%);
-    -webkit-backdrop-filter: blur(8px) saturate(125%);
+        inset 0 0 0 1px rgba(121, 220, 234, 0.2),
+        0 0 12px var(--btn-neon-core),
+        0 0 26px var(--btn-neon-outer),
+        0 10px 22px rgba(0, 0, 0, 0.26);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }
 
 .btn#openForm:hover,
 .btn#openForm2:hover {
-    background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08) 36%, var(--btn-glass-tint-hover)),
-        rgba(10, 14, 18, 0.38);
+    background: linear-gradient(180deg, rgba(24, 44, 52, 0.98), rgba(14, 27, 34, 0.98));
     border-color: var(--btn-outline-hover-border);
     box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.42),
-        inset 0 -1px 0 rgba(255, 158, 96, 0.42),
-        0 0 18px rgba(255, 122, 36, 0.34),
-        0 12px 24px rgba(0, 0, 0, 0.26);
+        inset 0 0 0 1px rgba(121, 220, 234, 0.32),
+        0 0 16px rgba(64, 196, 219, 0.62),
+        0 0 34px rgba(64, 196, 219, 0.38),
+        0 12px 24px rgba(0, 0, 0, 0.3);
 }
 
 .btn-outline {
@@ -1829,10 +1827,10 @@ button.btn,
 
 .btn-outline:hover,
 .btn-outline:focus-visible {
-    color: #ffe8d8;
+    color: #e9fbff;
     border-color: var(--btn-outline-hover-border);
     background: var(--btn-outline-hover-bg);
-    box-shadow: 0 0 16px rgba(255, 122, 36, 0.24);
+    box-shadow: 0 0 16px rgba(64, 196, 219, 0.26);
     outline: none;
 }
 
