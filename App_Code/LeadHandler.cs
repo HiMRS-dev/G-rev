@@ -141,15 +141,15 @@ public sealed class GuitarLeadHandler : IHttpHandler
     private static string BuildTelegramMessage(string name, string phone, int age, string email)
     {
         var builder = new StringBuilder();
-        builder.AppendLine("Новая заявка с сайта");
-        builder.AppendLine("Имя: " + name);
-        builder.AppendLine("Телефон: " + phone);
-        builder.AppendLine("Возраст: " + age.ToString(CultureInfo.InvariantCulture));
+        builder.Append("\u041d\u043e\u0432\u0430\u044f \u0437\u0430\u044f\u0432\u043a\u0430 \u0441 \u0441\u0430\u0439\u0442\u0430\n");
+        builder.Append("\u0418\u043c\u044f: " + name + "\n");
+        builder.Append("\u0422\u0435\u043b\u0435\u0444\u043e\u043d: " + phone + "\n");
+        builder.Append("\u0412\u043e\u0437\u0440\u0430\u0441\u0442: " + age.ToString(CultureInfo.InvariantCulture) + "\n");
         if (!string.IsNullOrEmpty(email))
         {
-            builder.AppendLine("Email: " + email);
+            builder.Append("Email: " + email + "\n");
         }
-        builder.Append("Согласие на обработку данных: да");
+        builder.Append("\u0421\u043e\u0433\u043b\u0430\u0441\u0438\u0435 \u043d\u0430 \u043e\u0431\u0440\u0430\u0431\u043e\u0442\u043a\u0443 \u0434\u0430\u043d\u043d\u044b\u0445: \u0434\u0430");
         return builder.ToString();
     }
 
