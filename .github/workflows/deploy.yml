@@ -97,6 +97,13 @@ jobs:
           } else {
             Set-ItemProperty "IIS:\Sites\guitarLending" -Name physicalPath -Value $release
           }
+          $defaultSite = Get-Website -Name "Default Web Site" -ErrorAction SilentlyContinue
+          if ($defaultSite -and $defaultSite.State -eq "Started") {
+            Stop-Website -Name "Default Web Site"
+          }
+          if (Test-Path "IIS:\AppPools\DefaultAppPool") {
+            Restart-WebAppPool -Name "DefaultAppPool"
+          }
           Start-Website -Name "guitarLending"
           if (-not (Test-Path -LiteralPath (Join-Path $release "index.html"))) { throw "index.html is missing" }
           if (-not (Test-Path -LiteralPath (Join-Path $release "web.config"))) { throw "web.config is missing" }
