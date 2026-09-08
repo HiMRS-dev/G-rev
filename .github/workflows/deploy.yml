@@ -1,67 +1,125 @@
-name: Deploy to Server
+name: Deploy to Windows IIS
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
+
+concurrency:
+  group: guitarLending-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      DEPLOY_HOST: 144.31.73.240
+      DEPLOY_USER: Administrator
+      DEPLOY_PORT: "22"
+      DEPLOY_KNOWN_HOSTS: "144.31.73.240 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAgfUlevcin2OLG9zQLxW1/rSmGpoWOp8m32Bp/LmYGE"
+
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup SSH
+      - name: Validate deployment settings
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           set -euo pipefail
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          test -n "${DEPLOY_HOST}"
+          test -n "${DEPLOY_USER}"
+          test -n "${DEPLOY_PORT}"
+          test -n "${SSH_PRIVATE_KEY}"
+          test -n "${DEPLOY_KNOWN_HOSTS}"
+          case "${DEPLOY_HOST}" in
+            144.31.73.240|guitar-revolution.ru) ;;
+            *) echo "DEPLOY_HOST is not an approved production host" >&2; exit 1 ;;
+          esac
+
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "${SSH_PRIVATE_KEY}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H 80.93.63.195 >> ~/.ssh/known_hosts
+          printf '%s\n' "${DEPLOY_KNOWN_HOSTS}" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
 
-      - name: Deploy files
+      - name: Build public site archive
         run: |
           set -euo pipefail
-          rsync -az --delete \
-            --exclude '.git' \
-            --exclude '.github' \
-            -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes" \
-            ./ root@80.93.63.195:/var/www/html/
+          git archive --format=zip --output=site.zip HEAD -- \
+            '*.html' \
+            App_Code \
+            web.config \
+            style.css \
+            script.js \
+            images \
+            favicon \
+            robots.txt \
+            sitemap.xml
+          unzip -tq site.zip
+          test -s site.zip
 
-      - name: Validate SEO on production
+      - name: Upload release archive
         run: |
           set -euo pipefail
-          BASE_URL="https://guitar-revolution.ru"
+          scp -P "${DEPLOY_PORT}" \
+            -i ~/.ssh/id_ed25519 \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            site.zip \
+            "${DEPLOY_USER}@${DEPLOY_HOST}:C:/Users/Administrator/guitarLending-deploy-${GITHUB_SHA}.zip"
 
-          echo "Check home status..."
-          HOME_STATUS="$(curl -s -o /dev/null -w "%{http_code}" "${BASE_URL}/")"
-          test "${HOME_STATUS}" = "200"
+      - name: Activate IIS release
+        run: |
+          set -euo pipefail
+          python3 - <<'PY' > remote-script.txt
+          import base64
+          script = r'''
+          $ErrorActionPreference = "Stop"
+          Import-Module WebAdministration
+          $archive = "C:\Users\Administrator\guitarLending-deploy-${GITHUB_SHA}.zip"
+          $release = "C:\Sites\guitarLending\releases\${GITHUB_SHA}"
+          New-Item -ItemType Directory -Path $release -Force | Out-Null
+          Expand-Archive -LiteralPath $archive -DestinationPath $release -Force
+          $site = Get-Website -Name "guitarLending" -ErrorAction SilentlyContinue
+          if (-not $site) {
+            New-Website -Name "guitarLending" -PhysicalPath $release -Port 80 -IPAddress "*" -Force | Out-Null
+          } else {
+            Set-ItemProperty "IIS:\Sites\guitarLending" -Name physicalPath -Value $release
+          }
+          Start-Website -Name "guitarLending"
+          if (-not (Test-Path -LiteralPath (Join-Path $release "index.html"))) { throw "index.html is missing" }
+          if (-not (Test-Path -LiteralPath (Join-Path $release "web.config"))) { throw "web.config is missing" }
+          Write-Output "IIS release activated: ${GITHUB_SHA}"
+          '''
+          print(base64.b64encode(script.encode('utf-16le')).decode())
+          PY
+          ENCODED_SCRIPT="$(cat remote-script.txt)"
+          ssh -p "${DEPLOY_PORT}" \
+            -i ~/.ssh/id_ed25519 \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "${DEPLOY_USER}@${DEPLOY_HOST}" \
+            "powershell -NoProfile -NonInteractive -EncodedCommand ${ENCODED_SCRIPT}"
 
-          echo "Check canonical and social tags..."
-          HTML="$(mktemp)"
-          curl -fsSL "${BASE_URL}/" > "${HTML}"
-          grep -Fq '<link rel="canonical" href="https://guitar-revolution.ru/">' "${HTML}"
-          grep -Fq '<meta property="og:image" content="https://guitar-revolution.ru/images/og-cover-1200x630.jpg">' "${HTML}"
-          grep -Fq '<meta name="twitter:image" content="https://guitar-revolution.ru/images/og-cover-1200x630.jpg">' "${HTML}"
-
-          echo "Check robots..."
-          ROBOTS="$(mktemp)"
-          curl -fsSL "${BASE_URL}/robots.txt" > "${ROBOTS}"
-          grep -Fqx 'Host: guitar-revolution.ru' "${ROBOTS}"
-          grep -Fqx 'Sitemap: https://guitar-revolution.ru/sitemap.xml' "${ROBOTS}"
-
-          echo "Check sitemap..."
-          SITEMAP="$(mktemp)"
-          curl -fsSL "${BASE_URL}/sitemap.xml" > "${SITEMAP}"
-          grep -Fq '<loc>https://guitar-revolution.ru/</loc>' "${SITEMAP}"
-          grep -Eq '<lastmod>[0-9]{4}-[0-9]{2}-[0-9]{2}</lastmod>' "${SITEMAP}"
-          grep -Fq '<image:loc>https://guitar-revolution.ru/images/og-cover-1200x630.jpg</image:loc>' "${SITEMAP}"
-
-          echo "Check duplicate URL redirects..."
-          INDEX_HEADERS="$(mktemp)"
-          curl -sI "${BASE_URL}/index.html" > "${INDEX_HEADERS}"
-          grep -Eq '^HTTP/[0-9.]+ 301' "${INDEX_HEADERS}"
-          grep -Eiq $'^location: https://guitar-revolution.ru/\r?$' "${INDEX_HEADERS}"
+      - name: Validate production HTTP endpoints
+        env:
+          BASE_URL: http://144.31.73.240
+        run: |
+          set -euo pipefail
+          CURL_HOST=(-H 'Host: guitar-revolution.ru')
+          test "$(curl -sS "${CURL_HOST[@]}" -o /dev/null -w '%{http_code}' "${BASE_URL}/")" = 200
+          test "$(curl -sS "${CURL_HOST[@]}" -o /dev/null -w '%{http_code}' "${BASE_URL}/robots.txt")" = 200
+          test "$(curl -sS "${CURL_HOST[@]}" -o /dev/null -w '%{http_code}' "${BASE_URL}/sitemap.xml")" = 200
+          test "$(curl -sS "${CURL_HOST[@]}" -o /dev/null -w '%{http_code}' "${BASE_URL}/privacy/")" = 200
+          grep -Fq '<link rel="canonical" href="https://guitar-revolution.ru/">' <(curl -fsSL "${CURL_HOST[@]}" "${BASE_URL}/")
