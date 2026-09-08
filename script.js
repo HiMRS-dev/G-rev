@@ -330,6 +330,9 @@ function initContactForm() {
         });
 
         if (!response.ok) {
+          if (response.status === 400) {
+            throw new Error("Invalid lead data");
+          }
           throw new Error("Request failed");
         }
 
@@ -350,7 +353,11 @@ function initContactForm() {
         const closeBtn = document.querySelector("#formModal .close");
         closeBtn?.click();
       } catch (error) {
-        showNotice("Не удалось отправить заявку. Попробуйте позже.", "error", "Ошибка");
+        if (error?.message === "Invalid lead data") {
+          showNotice("Проверьте имя, телефон, возраст и согласие на обработку данных.", "error", "Проверьте форму");
+        } else {
+          showNotice("Не удалось отправить заявку. Попробуйте позже.", "error", "Ошибка");
+        }
       } finally {
         if (submitBtn) submitBtn.disabled = false;
       }
