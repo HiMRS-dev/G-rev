@@ -331,7 +331,9 @@ function initContactForm() {
 
         if (!response.ok) {
           if (response.status === 400) {
-            throw new Error("Invalid lead data");
+            const error = new Error("Invalid lead data");
+            error.validationCode = response.headers.get("X-Guitar-Lead-Validation") || "";
+            throw error;
           }
           throw new Error("Request failed");
         }
@@ -354,7 +356,21 @@ function initContactForm() {
         closeBtn?.click();
       } catch (error) {
         if (error?.message === "Invalid lead data") {
-          showNotice("Проверьте имя, телефон, возраст и согласие на обработку данных.", "error", "Проверьте форму");
+          const validationMessages = {
+            "name-empty": "Укажите имя.",
+            "name-format": "В имени допустимы только буквы, пробел и дефис.",
+            "phone-empty": "Укажите телефон.",
+            "phone-format": "Проверьте формат телефона.",
+            "age-format": "Укажите возраст числом.",
+            "age-range": "Возраст должен быть от 1 до 120 лет.",
+            consent: "Подтвердите согласие на обработку данных.",
+            "email-format": "Проверьте формат email."
+          };
+          showNotice(
+            validationMessages[error.validationCode] || "Проверьте имя, телефон, возраст и согласие на обработку данных.",
+            "error",
+            "Проверьте форму"
+          );
         } else {
           showNotice("Не удалось отправить заявку. Попробуйте позже.", "error", "Ошибка");
         }

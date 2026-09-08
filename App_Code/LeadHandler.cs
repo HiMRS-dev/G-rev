@@ -74,12 +74,10 @@ public sealed class GuitarLeadHandler : IHttpHandler
 
         int age;
 
-        if (!NamePattern.IsMatch(name) || !PhonePattern.IsMatch(phone)
-            || !int.TryParse(ageText, NumberStyles.Integer, CultureInfo.InvariantCulture, out age)
-            || age < 1 || age > 120 || !consent
-            || (!string.IsNullOrEmpty(email) && !IsValidEmail(email)))
+        var validationCode = GetValidationCode(name, phone, ageText, consent, email, out age);
+        if (!string.IsNullOrEmpty(validationCode))
         {
-            WriteError(context, 400, "Invalid request");
+            WriteValidationError(context, validationCode);
             return;
         }
 
@@ -136,6 +134,26 @@ public sealed class GuitarLeadHandler : IHttpHandler
     {
         return email.Length <= 254
             && Regex.IsMatch(email, @"^[^\s@]+@[^\s@]+\.[^\s@]+$", RegexOptions.CultureInvariant);
+    }
+
+    private static string GetValidationCode(
+        string name,
+        string phone,
+        string ageText,
+        bool consent,
+        string email,
+        out int age)
+    {
+        age = 0;
+        if (string.IsNullOrWhiteSpace(name)) return "name-empty";
+        if (!NamePattern.IsMatch(name)) return "name-format";
+        if (string.IsNullOrWhiteSpace(phone)) return "phone-empty";
+        if (!PhonePattern.IsMatch(phone)) return "phone-format";
+        if (!int.TryParse(ageText, NumberStyles.Integer, CultureInfo.InvariantCulture, out age)) return "age-format";
+        if (age < 1 || age > 120) return "age-range";
+        if (!consent) return "consent";
+        if (!string.IsNullOrEmpty(email) && !IsValidEmail(email)) return "email-format";
+        return null;
     }
 
     private static string BuildTelegramMessage(string name, string phone, int age, string email)
@@ -231,5 +249,11 @@ public sealed class GuitarLeadHandler : IHttpHandler
     {
         context.Response.StatusCode = statusCode;
         context.Response.Write(Serializer.Serialize(new { error = message }));
+    }
+
+    private static void WriteValidationError(HttpContext context, string validationCode)
+    {
+        context.Response.Headers["X-Guitar-Lead-Validation"] = validationCode;
+        WriteError(context, 400, "Invalid request");
     }
 }
