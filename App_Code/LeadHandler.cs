@@ -13,7 +13,7 @@ public sealed class GuitarLeadHandler : IHttpHandler
 {
     private static readonly JavaScriptSerializer Serializer = new JavaScriptSerializer();
     private static readonly Regex NamePattern = new Regex(
-        @"^[A-Za-zА-Яа-яЁё\s-]{1,100}$",
+        @"^[A-Za-z\u0410-\u042F\u0430-\u044F\u0401\u0451\s-]{1,100}$",
         RegexOptions.Compiled | RegexOptions.CultureInvariant);
     private static readonly Regex PhonePattern = new Regex(
         @"^[0-9+\-()\s]{7,32}$",
