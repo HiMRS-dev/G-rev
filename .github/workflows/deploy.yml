@@ -121,12 +121,14 @@ jobs:
 
       - name: Validate production HTTP endpoints
         env:
-          BASE_URL: http://144.31.73.240
+          BASE_URL: https://guitar-revolution.ru
+          HTTP_BASE_URL: http://144.31.73.240
         run: |
           set -euo pipefail
-          CURL_HOST=(-H 'Host: guitar-revolution.ru')
-          test "$(curl -sS "${CURL_HOST[@]}" -o /dev/null -w '%{http_code}' "${BASE_URL}/")" = 200
-          test "$(curl -sS "${CURL_HOST[@]}" -o /dev/null -w '%{http_code}' "${BASE_URL}/robots.txt")" = 200
-          test "$(curl -sS "${CURL_HOST[@]}" -o /dev/null -w '%{http_code}' "${BASE_URL}/sitemap.xml")" = 200
-          test "$(curl -sS "${CURL_HOST[@]}" -o /dev/null -w '%{http_code}' "${BASE_URL}/privacy/")" = 200
-          grep -Fq '<link rel="canonical" href="https://guitar-revolution.ru/">' <(curl -fsSL "${CURL_HOST[@]}" "${BASE_URL}/")
+          test "$(curl -fsSL -o /dev/null -w '%{http_code}' "${BASE_URL}/")" = 200
+          test "$(curl -fsSL -o /dev/null -w '%{http_code}' "${BASE_URL}/robots.txt")" = 200
+          test "$(curl -fsSL -o /dev/null -w '%{http_code}' "${BASE_URL}/sitemap.xml")" = 200
+          test "$(curl -fsSL -o /dev/null -w '%{http_code}' "${BASE_URL}/privacy/")" = 200
+          grep -Fq '<link rel="canonical" href="https://guitar-revolution.ru/">' <(curl -fsSL "${BASE_URL}/")
+          test "$(curl -sS -H 'Host: guitar-revolution.ru' -o /dev/null -w '%{http_code}' "${HTTP_BASE_URL}/")" = 301
+          test "$(curl -sSI -H 'Host: guitar-revolution.ru' "${HTTP_BASE_URL}/" | tr -d '\r' | grep -Fi 'Location: https://guitar-revolution.ru/')"
