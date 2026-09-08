@@ -87,8 +87,8 @@ jobs:
           script = r'''
           $ErrorActionPreference = "Stop"
           Import-Module WebAdministration
-          $archive = "C:\Users\Administrator\guitarLending-deploy-${GITHUB_SHA}.zip"
-          $release = "C:\Sites\guitarLending\releases\${GITHUB_SHA}"
+          $archive = "C:\Users\Administrator\guitarLending-deploy-${{ github.sha }}.zip"
+          $release = "C:\Sites\guitarLending\releases\${{ github.sha }}"
           New-Item -ItemType Directory -Path $release -Force | Out-Null
           Expand-Archive -LiteralPath $archive -DestinationPath $release -Force
           $site = Get-Website -Name "guitarLending" -ErrorAction SilentlyContinue
@@ -100,7 +100,7 @@ jobs:
           Start-Website -Name "guitarLending"
           if (-not (Test-Path -LiteralPath (Join-Path $release "index.html"))) { throw "index.html is missing" }
           if (-not (Test-Path -LiteralPath (Join-Path $release "web.config"))) { throw "web.config is missing" }
-          Write-Output "IIS release activated: ${GITHUB_SHA}"
+          Write-Output "IIS release activated: ${{ github.sha }}"
           '''
           print(base64.b64encode(script.encode('utf-16le')).decode())
           PY
