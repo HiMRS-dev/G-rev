@@ -172,15 +172,58 @@ public sealed class GuitarLeadHandler : IHttpHandler
                 var result = Serializer.DeserializeObject(Encoding.UTF8.GetString(response))
                     as Dictionary<string, object>;
                 object ok;
-                return result != null
+                if (result != null
                     && result.TryGetValue("ok", out ok)
                     && ok is bool
-                    && (bool)ok;
+                    && (bool)ok)
+                {
+                    return true;
+                }
+
+                WriteTelegramFailure("api-response");
+                return false;
             }
+        }
+        catch (WebException exception)
+        {
+            var response = exception.Response as HttpWebResponse;
+            var status = response == null
+                ? "none"
+                : ((int)response.StatusCode).ToString(CultureInfo.InvariantCulture);
+            WriteTelegramFailure("web-exception-http-" + status);
+            return false;
+        }
+        catch (Exception exception)
+        {
+            WriteTelegramFailure(exception.GetType().Name);
+            return false;
+        }
+    }
+
+    private static void WriteTelegramFailure(string reason)
+    {
+        try
+        {
+            var pendingDirectory = Environment.GetEnvironmentVariable("GUITAR_LEAD_DATA_DIR");
+            if (string.IsNullOrWhiteSpace(pendingDirectory))
+            {
+                pendingDirectory = @"C:\ProgramData\guitarLending\leads\pending";
+            }
+
+            var parent = Directory.GetParent(pendingDirectory);
+            if (parent == null)
+            {
+                return;
+            }
+
+            var path = Path.Combine(parent.FullName, "telegram-errors.log");
+            var line = DateTimeOffset.UtcNow.ToString("O", CultureInfo.InvariantCulture)
+                + " " + reason + Environment.NewLine;
+            File.AppendAllText(path, line, new UTF8Encoding(false));
         }
         catch
         {
-            return false;
+            // Diagnostics must never change the response or expose secrets.
         }
     }
 
